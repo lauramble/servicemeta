@@ -21,7 +21,7 @@ See top-level LICENSE file for more information
 </head>
 <body>
   <header>
-    <h1>CodeMeta generator v3.0</h1><!-- Generate codemeta v2.0 by default for now, allow v3.0 generation by clicking -->
+    <h1>ServiceMeta generator v0.1</h1><!-- Generate codemeta v2.0 by default for now, allow v3.0 generation by clicking -->
   </header>
 
   <main>
@@ -42,31 +42,41 @@ See top-level LICENSE file for more information
         <fieldset id="fieldsetSoftwareItself" class="leafFieldset">
             <legend>The software itself</legend>
 
-            <p title="The name of the software">
+            <p title="The shortened name of the web service">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" aria-describedby="name_descr"
-                    placeholder="My Software" required="required" />
+                    placeholder="hh-neuron-builder" required="required" />
 
-                <span class="field-description" id="name_descr">the software title</span>
+                <span class="field-description" id="name_descr">the short name of the web service</span>
             </p>
 
-            <p title="a brief description of the software">
+            <p title="The full name of the web service">
+                <label for="alternateName">Full name</label>
+                <input type="text" name="full name" id="alternateName" aria-describedby="fullname_descr"
+                    placeholder="Hodgkin-Huxley Neuron Builder" />
+
+                <span class="field-description" id="fullname_descr">the full name of the web service</span>
+            </p>
+
+            <p title="The web service homepage">
+                <label for="homepage">Homepage</label>
+                <input type="text" name="homepage" id="homepage" aria-describedby="homepage_desc"
+                    placeholder="https://hbp-bsp-hhnb.cineca.it/hh-neuron-builder/" required="required" />
+
+                <span class="field-description" id="homepage_descr">the full name of the web service</span>
+            </p>
+
+            <p title="A brief description of the service">
                 <label for="description">Description</label>
                 <textarea rows="4" cols="50"
                     name="description" id="description"
-                    placeholder="My Software computes ephemerides and orbit propagation. It has been developed from early ´80." ></textarea>
+                    placeholder="The Hodgkin-Huxley Neuron Builder (HHNB) allows the users to interactively go through the entire cell model building pipeline for a single cell neural model implemented in NEURON." ></textarea>
             </p>
 
 
-            <p title="The date on which the software was created.">
+            <p title="The date on which the service was created.">
                 <label for="dateCreated">Creation date</label>
                 <input type="text" name="dateCreated" id="dateCreated"
-                    placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
-            </p>
-
-            <p title="Date of first publication.">
-                <label for="datePublished">First release date</label>
-                <input type="text" name="datePublished" id="datePublished"
                     placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
             </p>
 
@@ -87,7 +97,7 @@ See top-level LICENSE file for more information
                 </div>
             </p>
         </fieldset>
-
+            
         <fieldset id="fieldsetDiscoverabilityAndCitation" class="leafFieldset">
             <legend>Discoverability and citation</legend>
 
@@ -98,7 +108,7 @@ See top-level LICENSE file for more information
 
                 <br />
                 <span class="field-description" id="identifier_descr">
-                    such as ISBNs, GTIN codes, UUIDs etc..  <a href="http://schema.org/identifier">http://schema.org/identifier</a>
+                    such as ISBNs, DOI, UUIDs etc..  <a href="http://schema.org/identifier">http://schema.org/identifier</a>
                 </span>
             </p>
             <!-- TODO:define better
@@ -115,12 +125,6 @@ See top-level LICENSE file for more information
             of what needs to be in the input.
 
             -->
-
-            <p title="Type of the software application">
-                <label for="applicationCategory">Application category</label>
-                <input type="text" name="applicationCategory" id="applicationCategory"
-                    placeholder="Astronomy"  />
-            </p>
 
             <p title="Comma-separated list of keywords">
                 <label for="keywords">Keywords</label>
@@ -175,37 +179,7 @@ See top-level LICENSE file for more information
                 <br />
                 <textarea rows="4" cols="50"
                     name="relatedLink" id="relatedLink"></textarea>
-        </fieldset>
-
-        <fieldset id="fieldsetRuntime" class="leafFieldset">
-            <legend>Run-time environment</legend>
-
-            <p title="Programming Languages, separated by commas">
-                <label for="programmingLanguage">Programming Language</label>
-                <input type="text" name="programmingLanguage" id="programmingLanguage"
-                    placeholder="C#, Java, Python 3"  />
             </p>
-
-            <p title="Runtime Platforms, separated by commas">
-                <label for="runtimePlatform">Runtime Platform</label>
-                <input type="text" name="runtimePlatform" id="runtimePlatform"
-                    placeholder=".NET, JVM" />
-            </p>
-
-            <p title="Operating Systems, separated by commas">
-                <label for="operatingSystem">Operating System</label>
-                <input type="text" name="operatingSystem" id="operatingSystem"
-                    placeholder="Android 1.6, Linux, Windows, macOS" />
-            </p>
-
-            <p title="Required software to run/use this one.">
-                <label for="softwareRequirements">Other software requirements</label>
-                <br />
-                <textarea rows="4" cols="50"
-                    name="softwareRequirements" id="softwareRequirements"
-                    placeholder=
-"Python 3.4
-https://github.com/psf/requests"></textarea>
         </fieldset>
 
         <fieldset id="fieldsetCurrentVersion" class="leafFieldset">
@@ -223,12 +197,6 @@ https://github.com/psf/requests"></textarea>
                     placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
             </p>
 
-            <p title="Download link">
-                <label for="downloadUrl">Download URL</label>
-                <input type="URL" name="downloadUrl" id="downloadUrl"
-                    placeholder="https://example.org/MySoftware.tar.gz" />
-            </p>
-
             <p title="a brief description of the software">
                 <label for="releaseNotes">Release notes</label>
                 <br />
@@ -243,64 +211,23 @@ Bugfixes: that and this." ></textarea>
 
         </fieldset>
 
-        <fieldset id="review_container" class="leafFieldset">
-            <legend>Editorial review</legend>
+        <fieldset id="inputsAndOutputs" class="leafFieldset">
+            <legend>Inputs and Outputs</legend>
 
-            <p title="Scholarly article describing this software">
-                <label for="referencePublication">Reference Publication</label>
-                <input type="URL" name="referencePublication" id="referencePublication"
-                    placeholder="https://doi.org/10.1000/xyz123" />
+            <p title="Comma-separated list of possible formats for the service's output.">
+                <label for="serviceOutput">Output Formats</label>
+                <input type="text" name="serviceOutput" id="serviceOutput"
+                    placeholder="json, csv, tiff" />
             </p>
 
-            <p title="Part or facet of the object being review ">
-                <label for="reviewAspect">Review aspect</label>
-                <input type="text" name="reviewAspect" id="reviewAspect"
-                    placeholder="Object facet" />
+            <p title="Comma-separated list of formats accepted as input by the service.">
+                <label for="serviceInput">Release date</label>
+                <input type="text" name="serviceInput" id="serviceInput"
+                    placeholder="yaml, txt, fastq" />
             </p>
 
-          <p title="The actual body of the review ">
-                <label for="reviewBody">Review body</label>
-                <textarea rows="4" cols="50"
-                    name="reviewBody" id="reviewBody"
-                    placeholder="Review about my software." ></textarea>
-            </p>
-        </fieldset>
+<!--TODO: referencePublication as ScholarlyArticle array -->
 
-        <fieldset id="fieldsetAdditionalInfo" class="leafFieldset">
-            <legend>Additional Info</legend>
-
-            <p title="Development Status">
-            <label for="developmentStatus">Development Status</label>
-                <datalist id="developmentStatuses">
-                        <option value="concept">
-                        <option value="wip">
-                        <option value="suspended">
-                        <option value="abandoned">
-                        <option value="active">
-                        <option value="inactive">
-                        <option value="unsupported">
-                        <option value="moved">
-                </datalist>
-                <input list="developmentStatuses" id="developmentStatus" aria-describedby="developmentStatuses_descr"
-                pattern="concept|wip|suspended|abandoned|active|inactive|unsupported|moved">
-
-                <br />
-                <span class="field-description" id="developmentStatuses_descr">
-                    see <a href="http://www.repostatus.org">www.repostatus.org</a> for details
-                </span>
-            </p>
-
-            <p title="Source Code of">
-                <label for="isSourceCodeOf">Is Source Code of</label>
-                <input type="text" name="isSourceCodeOf" id="isSourceCodeOf"
-                    placeholder="Bigger Application" />
-            </p>
-
-            <p title="Part of">
-                <label for="isPartOf">Is part of</label>
-                <input type="URL" name="isPartOf" id="isPartOf"
-                    placeholder="http://The.Bigger.Framework.org"  />
-            </p>
         </fieldset>
 
         <div class="dynamicFields">
@@ -333,22 +260,20 @@ Bugfixes: that and this." ></textarea>
 
     </form>
     <form>
-      <input type="button" id="generateCodemetaV3" value="Generate codemeta.json v3.0" disabled
-             title="Creates a codemeta.json v3.0 file below, from the information provided above." />
-      <input type="button" id="generateCodemetaV2" value="Generate codemeta.json v2.0" disabled
-            title="Creates a codemeta.json v2.0 file below, from the information provided above." />
+      <input type="button" id="generateServiceMeta" value="Generate servicemeta.json v0.1" disabled
+             title="Creates a servicemeta.json v3.0 file below, from the information provided above." />
         <input type="button" id="resetForm" value="Reset form"
             title="Erases all fields." />
-        <input type="button" id="validateCodemeta" value="Validate codemeta.json" disabled
-            title="Checks the codemeta.json file below is valid, and displays errors." />
-        <input type="button" id="importCodemeta" value="Import codemeta.json" disabled
-            title="Fills the fields above based on the codemeta.json file below." />
+        <input type="button" id="validateServiceMeta" value="Validate servicemeta.json" disabled
+            title="Checks the servicemeta.json file below is valid, and displays errors." />
+        <input type="button" id="importServiceMeta" value="Import servicemeta.json" disabled
+            title="Fills the fields above based on the servicemeta.json file below." />
     </form>
 
     <p id="errorMessage">
     </p>
-    <p>codemeta.json:</p>
-    <pre contentEditable="true" id="codemetaText"></pre>
+    <p>servicemeta.json:</p>
+    <pre contentEditable="true" id="servicemetaText"></pre>
   </main>
 
   <footer>
