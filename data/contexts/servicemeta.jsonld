@@ -1,0 +1,37 @@
+{
+  "@context": {
+      "type": "@type",
+      "id": "@id",
+      "schema":"http://schema.org/",
+      "Organization": {"@id": "schema:Organization"},
+      "Person": {"@id": "schema:Person"},
+      "WebApplication": {"@id": "schema:WebApplication"},
+      "WebAPI": {"id": "schema:WebAPI"},
+      "Text": {"@id": "schema:Text"},
+      "URL": {"@id": "schema:URL"},
+      
+      "author": {"@id": "schema:author", "@container": "@list"},
+      "alternateName": {"@id": "schema:alternateName"},
+      "citation": { "@id": "schema:citation"},
+      "contributor": { "@id": "schema:contributor"},
+      "copyrightHolder": { "@id": "schema:copyrightHolder"},
+      "copyrightYear": { "@id": "schema:copyrightYear"},
+      "dateModified":  {"@id": "schema:datePublished", "@type": "schema:Date" },
+      "documentation": {"@id": "schema:documentation", "@type": "@id"},
+      "downloadUrl": { "@id": "schema:downloadUrl", "@type": "@id"},
+      "funding": { "@id": "schema:funding", "@type": "schema:Grant"},
+      "funder": {"@id": "schema:funder"},
+      "identifer": {"@id": "schema:identifier"},
+      "version": { "@id": "schema:version"},
+      "url": { "@id": "schema:url", "@type": "@id"},
+      "serviceOutput": {"@id": "schema:serviceOutput"},
+      "hasPart": { "@id": "schema:hasPart" },
+      "identifier": { "@id": "schema:identifier", "@type": "@id"},
+      "softwareHelp": { "@id": "schema:softwareHelp"},
+      "releaseNotes": { "@id": "schema:releaseNotes"},
+      "familyName": { "@id": "schema:familyName"},
+      "givenName": { "@id": "schema:givenName"},
+      "email": { "@id": "schema:email"}
+
+  }
+}
