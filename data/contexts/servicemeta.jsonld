@@ -22,7 +22,6 @@
       "downloadUrl": { "@id": "schema:downloadUrl", "@type": "@id"},
       "funding": { "@id": "schema:funding", "@type": "@id"},
       "funder": {"@id": "schema:funder"},
-      "identifer": {"@id": "schema:identifier"},
       "version": { "@id": "schema:version"},
       "url": { "@id": "schema:url", "@type": "@id"},
       "serviceOutput": {"@id": "schema:serviceOutput", "@container": "@list"},
