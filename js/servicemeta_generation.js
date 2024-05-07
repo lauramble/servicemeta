@@ -77,6 +77,7 @@ const directServicemetaFields = [
     'dateCreated',
     'dateModified',
     'description',
+    'documentation',
     'funder',
     'funding',
     'homepage',
@@ -100,6 +101,7 @@ const directPersonServicemetaFields = [
     'givenName',
     'familyName',
     'email',
+    'id',
     'affiliation',
 ];
 

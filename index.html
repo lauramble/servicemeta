@@ -63,7 +63,7 @@ See top-level LICENSE file for more information
                 <input type="text" name="homepage" id="homepage" aria-describedby="homepage_desc"
                     placeholder="https://hbp-bsp-hhnb.cineca.it/hh-neuron-builder/" required="required" />
 
-                <span class="field-description" id="homepage_descr">the full name of the web service</span>
+                <span class="field-description" id="homepage_descr">webservice website</span>
             </p>
 
             <p title="A brief description of the service">
@@ -162,6 +162,12 @@ See top-level LICENSE file for more information
                     placeholder="git+https://github.com/You/RepoName.git" />
             </p>
 
+            <p title="Link to the repository where the un-compiled, human readable code and related code is located (SVN, Git, GitHub, CodePlex, institutional GitLab instance, etc.).">
+                <label for="documentation">Documentation</label>
+                <input type="URL" name="documentation" id="documentation"
+                    placeholder="https://this-webservice.readthedocs.io/latest/" />
+            </p>
+
             <p title="Related document, software, tools">
                 <label for="relatedLink">Related links</label>
                 <br />
@@ -200,18 +206,19 @@ Bugfixes: that and this." ></textarea>
         </fieldset>
 
         <fieldset id="inputsAndOutputs" class="leafFieldset">
+
+            <p title="Comma-separated list of formats accepted as input by the service.">
+                <label for="serviceInput">Input Formats</label>
+                <input type="text" name="serviceInput" id="serviceInput"
+                    placeholder="yaml, txt, fastq" />
+            </p>
+
             <legend>Inputs and Outputs</legend>
 
             <p title="Comma-separated list of possible formats for the service's output.">
                 <label for="serviceOutput">Output Formats</label>
                 <input type="text" name="serviceOutput" id="serviceOutput"
                     placeholder="json, csv, tiff" />
-            </p>
-
-            <p title="Comma-separated list of formats accepted as input by the service.">
-                <label for="serviceInput">Input Formats</label>
-                <input type="text" name="serviceInput" id="serviceInput"
-                    placeholder="yaml, txt, fastq" />
             </p>
 
 <!--TODO: referencePublication as ScholarlyArticle array -->
