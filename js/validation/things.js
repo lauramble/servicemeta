@@ -6,13 +6,13 @@
  */
 
 /*
- * Validators for codemeta objects derived from http://schema.org/Thing.
+ * Validators for servicemeta objects derived from http://schema.org/Thing.
  */
 
 function getDocumentType(doc) {
     // TODO: check there is at most one.
     // FIXME: is the last variant allowed?
-    return doc["type"] || doc["@type"] || doc["codemeta:type"]
+    return doc["type"] || doc["@type"] || doc["servicemeta:type"]
 }
 
 function getDocumentId(doc) {
@@ -23,7 +23,7 @@ function isCompactTypeEqual(type, compactedType) {
     // FIXME: are all variants allowed?
     return (type == `${compactedType}`
         || type == `schema:${compactedType}`
-        || type == `codemeta:${compactedType}`
+        || type == `servicemeta:${compactedType}`
         || type == `http://schema.org/${compactedType}`
     );
 }
@@ -191,10 +191,11 @@ function validateOrganization(fieldName, doc) {
     return validateThingOrId(fieldName, {"Organization": organizationFieldValidators}, doc);
 }
 
+/*
 function validateReview(fieldName, doc) {
     return validateThingOrId(fieldName, {"Review": reviewFieldValidators}, doc);
 }
-
+*/
 
 var softwareFieldValidators = {
     "@id": validateUrl,
@@ -250,7 +251,7 @@ var softwareFieldValidators = {
     "sameAs": validateUrls,
     "url": validateUrls,
     "relatedLink": validateUrls,
-    "review": validateReview,
+    //"review": validateReview,
 
     "softwareSuggestions": noValidation, // TODO: validate SoftwareSourceCode
     "maintainer": validateActors,
@@ -338,7 +339,9 @@ var organizationFieldValidators = {
     // TODO: add more?
 };
 
+/*
 const reviewFieldValidators = {
     "reviewAspect": validateText,
     "reviewBody": validateText,
 }
+*/

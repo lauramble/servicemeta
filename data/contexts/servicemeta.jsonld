@@ -3,6 +3,7 @@
       "type": "@type",
       "id": "@id",
       "schema":"http://schema.org/",
+      "servicemeta": "http://servicemeta.org",
       "Organization": {"@id": "schema:Organization"},
       "Person": {"@id": "schema:Person"},
       "WebApplication": {"@id": "schema:WebApplication"},
@@ -19,19 +20,21 @@
       "dateModified":  {"@id": "schema:datePublished", "@type": "schema:Date" },
       "documentation": {"@id": "schema:documentation", "@type": "@id"},
       "downloadUrl": { "@id": "schema:downloadUrl", "@type": "@id"},
-      "funding": { "@id": "schema:funding", "@type": "schema:Grant"},
+      "funding": { "@id": "schema:funding", "@type": "@id"},
       "funder": {"@id": "schema:funder"},
       "identifer": {"@id": "schema:identifier"},
       "version": { "@id": "schema:version"},
       "url": { "@id": "schema:url", "@type": "@id"},
-      "serviceOutput": {"@id": "schema:serviceOutput"},
+      "serviceOutput": {"@id": "schema:serviceOutput", "@container": "@list"},
       "hasPart": { "@id": "schema:hasPart" },
       "identifier": { "@id": "schema:identifier", "@type": "@id"},
       "softwareHelp": { "@id": "schema:softwareHelp"},
       "releaseNotes": { "@id": "schema:releaseNotes"},
       "familyName": { "@id": "schema:familyName"},
       "givenName": { "@id": "schema:givenName"},
-      "email": { "@id": "schema:email"}
+      "email": { "@id": "schema:email"},
+
+      "serviceInput": {"@id": "servicemeta:serviceInput"}
 
   }
 }

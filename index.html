@@ -8,25 +8,25 @@ See top-level LICENSE file for more information
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>CodeMeta generator</title>
+    <title>ServiceMeta generator</title>
     <script src="./js/utils.js"></script>
     <script src="./js/fields_data.js"></script>
     <script src="./js/dynamic_form.js"></script>
-    <script src="./js/codemeta_generation.js"></script>
+    <script src="./js/servicemeta_generation.js"></script>
     <script src="./js/validation/primitives.js"></script>
     <script src="./js/validation/things.js"></script>
     <script src="./js/validation/index.js"></script>
     <link rel="stylesheet" type="text/css" href="./main.css">
-    <link rel="stylesheet" type="text/css" href="./codemeta.css">
+    <link rel="stylesheet" type="text/css" href="./servicemeta.css">
 </head>
 <body>
   <header>
-    <h1>ServiceMeta generator v0.1</h1><!-- Generate codemeta v2.0 by default for now, allow v3.0 generation by clicking -->
+    <h1>ServiceMeta generator v0.1</h1><!-- Generate servicemeta v2.0 by default for now, allow v3.0 generation by clicking -->
   </header>
 
   <main>
 
-    <p>Most fields are optional. Mandatory fields will be highlighted when generating Codemeta.</p>
+    <p>Most fields are optional. Mandatory fields will be highlighted when generating Servicemeta.</p>
 
     <noscript>
         <p id="noscriptError">
@@ -162,18 +162,6 @@ See top-level LICENSE file for more information
                     placeholder="git+https://github.com/You/RepoName.git" />
             </p>
 
-            <p title="Link to continuous integration service (Travis-CI, Gitlab CI, etc.).">
-                <label for="contIntegration">Continuous integration</label>
-                <input type="URL" name="contIntegration" id="contIntegration"
-                    placeholder="https://travis-ci.org/You/RepoName" />
-            </p>
-
-            <p title="Link to a place for users/developpers to report and manage bugs (JIRA, GitHub issues, etc.).">
-                <label for="issueTracker">Issue tracker</label>
-                <input type="URL" name="issueTracker" id="issueTracker"
-                    placeholder="https://github.com/You/RepoName/issues" />
-            </p>
-
             <p title="Related document, software, tools">
                 <label for="relatedLink">Related links</label>
                 <br />
@@ -221,7 +209,7 @@ Bugfixes: that and this." ></textarea>
             </p>
 
             <p title="Comma-separated list of formats accepted as input by the service.">
-                <label for="serviceInput">Release date</label>
+                <label for="serviceInput">Input Formats</label>
                 <input type="text" name="serviceInput" id="serviceInput"
                     placeholder="yaml, txt, fastq" />
             </p>
@@ -260,20 +248,20 @@ Bugfixes: that and this." ></textarea>
 
     </form>
     <form>
-      <input type="button" id="generateServiceMeta" value="Generate servicemeta.json v0.1" disabled
-             title="Creates a servicemeta.json v3.0 file below, from the information provided above." />
+      <input type="button" id="generateServicemeta" value="Generate servicemeta.json v0.1" disabled
+             title="Creates a servicemeta.json v0.1 file below, from the information provided above." />
         <input type="button" id="resetForm" value="Reset form"
             title="Erases all fields." />
-        <input type="button" id="validateServiceMeta" value="Validate servicemeta.json" disabled
+        <input type="button" id="validateServicemeta" value="Validate servicemeta.json" disabled
             title="Checks the servicemeta.json file below is valid, and displays errors." />
-        <input type="button" id="importServiceMeta" value="Import servicemeta.json" disabled
+        <input type="button" id="importServicemeta" value="Import servicemeta.json" disabled
             title="Fills the fields above based on the servicemeta.json file below." />
     </form>
 
     <p id="errorMessage">
     </p>
     <p>servicemeta.json:</p>
-    <pre contentEditable="true" id="servicemetaText"></pre>
+    <pre contenteditable="true" id="servicemetaText"></pre>
   </main>
 
   <footer>
@@ -281,14 +269,14 @@ Bugfixes: that and this." ></textarea>
         Do you want to improve this tool ?
         Check out the
         <a href="https://github.com/codemeta/codemeta-generator">
-            CodeMeta-generator repository</a>
+            ServiceMeta-generator repository</a>
         <br />
         Join the
-        <a href="https://github.com/codemeta/codemeta">CodeMeta community</a>
+        <a href="https://github.com/codemeta/codemeta">ServiceMeta community</a>
         discussion
         <br />
-        The CodeMeta vocabulary -
-        <a href="https://doi.org/10.5063/schema/codemeta-2.0">v2.0</a>
+        The ServiceMeta vocabulary -
+        <a href="https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld">v2.0</a>
         -
         <a href="https://w3id.org/codemeta/3.0">v3.0</a>
     </p>

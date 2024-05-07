@@ -7,32 +7,26 @@
 
 "use strict";
 
-const LOCAL_CONTEXT_PATH = "./data/contexts/codemeta-local.jsonld";
+const LOCAL_CONTEXT_PATH = "./data/contexts/servicemeta.jsonld";
 const LOCAL_CONTEXT_URL = "local";
-const CODEMETA_CONTEXTS = {
-    "2.0": {
-        path: "./data/contexts/codemeta-2.0.jsonld",
-        url: "https://doi.org/10.5063/schema/codemeta-2.0"
-    },
-    "3.0": {
-        path: "./data/contexts/codemeta-3.0.jsonld",
-        url: "https://w3id.org/codemeta/3.0"
+const SERVICEMETA_CONTEXTS = {
+    "0.1": {
+        path: "./data/contexts/servicemeta.jsonld",
+        url: "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld"
     }
 }
 
 const SPDX_PREFIX = 'https://spdx.org/licenses/';
 
 const loadContextData = async () => {
-    const [contextLocal, contextV2, contextV3] =
+    const [contextLocal, contextV01] =
         await Promise.all([
             fetch(LOCAL_CONTEXT_PATH).then(response => response.json()),
-            fetch(CODEMETA_CONTEXTS["2.0"].path).then(response => response.json()),
-            fetch(CODEMETA_CONTEXTS["3.0"].path).then(response => response.json())
+            fetch(SERVICEMETA_CONTEXTS["0.1"].path).then(response => response.json())
         ]);
     return {
         [LOCAL_CONTEXT_URL]: contextLocal,
-        [CODEMETA_CONTEXTS["2.0"].url]: contextV2,
-        [CODEMETA_CONTEXTS["3.0"].url]: contextV3
+        [SERVICEMETA_CONTEXTS["0.1"].url]: contextV01
     }
 }
 
@@ -76,58 +70,53 @@ function getLicenses() {
     return selectedLicenses.map(licenseDiv => SPDX_PREFIX + licenseDiv.children[0].innerText);
 }
 
-// Names of codemeta properties with a matching HTML field name
-const directCodemetaFields = [
+// Names of servicemeta properties with a matching HTML field name
+const directServicemetaFields = [
+    'alternateName',
     'codeRepository',
-    'contIntegration',
     'dateCreated',
-    'datePublished',
     'dateModified',
-    'downloadUrl',
-    'issueTracker',
-    'name',
-    'version',
-    'identifier',
     'description',
-    'applicationCategory',
-    'releaseNotes',
+    'funder',
     'funding',
-    'developmentStatus',
-    'isSourceCodeOf',
-    'isPartOf',
-    'referencePublication'
+    'homepage',
+    'identifier',
+    'license',
+    'name',
+    'releaseNotes',
+    'version',
 ];
 
-const splittedCodemetaFields = [
+const splittedServicemetaFields = [
     ['keywords', ','],
-    ['programmingLanguage', ','],
-    ['runtimePlatform', ','],
-    ['operatingSystem', ','],
-    ['softwareRequirements', '\n'],
     ['relatedLink', '\n'],
+    ['serviceInput', ','],
+    ['serviceOutput', ',']
 ]
 
-// Names of codemeta properties with a matching HTML field name,
+// Names of servicemeta properties with a matching HTML field name,
 // in a Person object
-const directPersonCodemetaFields = [
+const directPersonServicemetaFields = [
     'givenName',
     'familyName',
     'email',
     'affiliation',
 ];
 
-const directRoleCodemetaFields = [
+const directRoleServicemetaFields = [
     'roleName',
     'startDate',
     'endDate',
 ];
 
-const directReviewCodemetaFields = [
+/* 
+const directReviewServicemetaFields = [
     'reviewAspect',
     'reviewBody'
 ];
+*/
 
-const crossedCodemetaFields = {
+const crossedServicemetaFields = {
     "contIntegration": ["contIntegration", "continuousIntegration"],
     "embargoDate": ["embargoDate", "embargoEndDate"],
 };
@@ -161,7 +150,7 @@ function generatePerson(idPrefix) {
     if (id !== undefined) {
         doc["@id"] = id;
     }
-    directPersonCodemetaFields.forEach(function (item, index) {
+    directPersonServicemetaFields.forEach(function (item, index) {
         doc[item] = getIfSet(`#${idPrefix}_${item}`);
     });
     doc["affiliation"] = generateShortOrg(`#${idPrefix}_affiliation`);
@@ -173,7 +162,7 @@ function generateRole(id) {
     const doc = {
         "@type": "Role"
     };
-    directRoleCodemetaFields.forEach(function (item, index) {
+    directRoleServicemetaFields.forEach(function (item, index) {
         doc[item] = getIfSet(`#${id} .${item}`);
     });
     return doc;
@@ -207,20 +196,22 @@ function generatePersons(prefix) {
     return persons;
 }
 
+/*
 function generateReview() {
     const doc = {
         "@type": "Review"
     };
-    directReviewCodemetaFields.forEach(function (item, index) {
+    directReviewServicemetaFields.forEach(function (item, index) {
         doc[item] = getIfSet(`#${item}`);
     });
     return doc;
 }
+*/
 
 async function buildExpandedJson() {
     var doc = {
         "@context": LOCAL_CONTEXT_URL,
-        "@type": "SoftwareSourceCode",
+        "@type": "WebApplication",
     };
 
     let licenses = getLicenses();
@@ -229,19 +220,21 @@ async function buildExpandedJson() {
     }
 
     // Generate most fields
-    directCodemetaFields.forEach(function (item, index) {
+    directServicemetaFields.forEach(function (item, index) {
         doc[item] = getIfSet('#' + item)
     });
 
     doc["funder"] = generateShortOrg('#funder', doc["affiliation"]);
 
+    /*
     const review = generateReview();
     if (review["reviewAspect"] || review["reviewBody"]) {
         doc["review"] = generateReview();
     }
+    */
 
     // Generate simple fields parsed simply by splitting
-    splittedCodemetaFields.forEach(function (item, index) {
+    splittedServicemetaFields.forEach(function (item, index) {
         const id = item[0];
         const separator = item[1];
         const value = getIfSet('#' + id);
@@ -260,7 +253,7 @@ async function buildExpandedJson() {
         doc["contributor"] = contributors;
     }
 
-    for (const [key, values] of Object.entries(crossedCodemetaFields)) {
+    for (const [key, values] of Object.entries(crossedServicemetaFields)) {
         values.forEach(value => {
            doc[value] = doc[key];
         });
@@ -268,38 +261,37 @@ async function buildExpandedJson() {
     return await jsonld.expand(doc);
 }
 
-// v2.0 is still default version for generation, for now
-async function generateCodemeta(codemetaVersion = "2.0") {
+async function generateServicemeta(servicemetaVersion = "0.1") {
     var inputForm = document.querySelector('#inputForm');
-    var codemetaText, errorHTML;
+    var servicemetaText, errorHTML;
 
     if (inputForm.checkValidity()) {
         const expanded = await buildExpandedJson();
-        const compacted = await jsonld.compact(expanded, CODEMETA_CONTEXTS[codemetaVersion].url);
-        codemetaText = JSON.stringify(compacted, null, 4);
+        const compacted = await jsonld.compact(expanded, SERVICEMETA_CONTEXTS[servicemetaVersion].url);
+        servicemetaText = JSON.stringify(compacted, null, 4);
         errorHTML = "";
     }
     else {
-        codemetaText = "";
+        servicemetaText = "";
         errorHTML = "invalid input (see error above)";
         inputForm.reportValidity();
     }
 
-    document.querySelector('#codemetaText').innerText = codemetaText;
+    document.querySelector('#servicemetaText').innerText = servicemetaText;
     setError(errorHTML);
 
 
     // Run validator on the exported value, for extra validation.
     // If this finds a validation, it means there is a bug in our code (either
     // generation or validation), and the generation MUST NOT generate an
-    // invalid codemeta file, regardless of user input.
-    if (codemetaText && !validateDocument(JSON.parse(codemetaText))) {
-        alert('Bug detected! The data you wrote is correct; but for some reason, it seems we generated an invalid codemeta.json. Please report this bug at https://github.com/codemeta/codemeta-generator/issues/new and copy-paste the generated codemeta.json file. Thanks!');
+    // invalid servicemeta file, regardless of user input.
+    if (servicemetaText && !validateDocument(JSON.parse(servicemetaText))) {
+        alert('Bug detected! The data you wrote is correct; but for some reason, it seems we generated an invalid servicemeta.json. Please report this bug at https://github.com/servicemeta/servicemeta-generator/issues/new and copy-paste the generated servicemeta.json file. Thanks!');
     }
 
-    if (codemetaText) {
+    if (servicemetaText) {
         // For restoring the form state on page reload
-        sessionStorage.setItem('codemetaText', codemetaText);
+        sessionStorage.setItem('servicemetaText', servicemetaText);
     }
 }
 
@@ -321,7 +313,7 @@ function importPersons(prefix, legend, docs) {
         var personId = addPerson(prefix, legend);
 
         setIfDefined(`#${prefix}_${personId}_id`, getDocumentId(doc));
-        directPersonCodemetaFields.forEach(function (item, index) {
+        directPersonServicemetaFields.forEach(function (item, index) {
             setIfDefined(`#${prefix}_${personId}_${item}`, doc[item]);
         });
 
@@ -329,9 +321,9 @@ function importPersons(prefix, legend, docs) {
     })
 }
 
-async function importCodemeta() {
+async function importServicemeta() {
     var inputForm = document.querySelector('#inputForm');
-    var doc = await parseAndValidateCodemeta(false);
+    var doc = await parseAndValidateServicemeta(false);
     resetForm();
 
     if (doc['license'] !== undefined) {
@@ -346,13 +338,13 @@ async function importCodemeta() {
         });
     }
 
-    directCodemetaFields.forEach(function (item, index) {
+    directServicemetaFields.forEach(function (item, index) {
         setIfDefined('#' + item, doc[item]);
     });
     importShortOrg('#funder', doc["funder"]);
 
     // Import simple fields by joining on their separator
-    splittedCodemetaFields.forEach(function (item, index) {
+    splittedServicemetaFields.forEach(function (item, index) {
         const id = item[0];
         const separator = item[1];
         let value = doc[id];
@@ -369,9 +361,9 @@ async function importCodemeta() {
 }
 
 function loadStateFromStorage() {
-    var codemetaText = sessionStorage.getItem('codemetaText')
-    if (codemetaText) {
-        document.querySelector('#codemetaText').innerText = codemetaText;
-        importCodemeta();
+    var servicemetaText = sessionStorage.getItem('servicemetaText')
+    if (servicemetaText) {
+        document.querySelector('#servicemetaText').innerText = servicemetaText;
+        importServicemeta();
     }
 }

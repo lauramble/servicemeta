@@ -13,22 +13,22 @@
 
 describe('Document validation', function() {
     it('accepts empty document', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#name').should('have.value', '');
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts all main fields', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "license": "https://spdx.org/licenses/AGPL-3.0",
                 "dateCreated": "2019-10-02",
@@ -37,7 +37,7 @@ describe('Document validation', function() {
                 "description": "This is a\ngreat piece of software",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
 
         cy.get('#name').should('have.value', '');
@@ -45,46 +45,46 @@ describe('Document validation', function() {
     });
 
     it('accepts anything in non-validated fields', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "programmingLanguage": "foo",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
         cy.get('#errorMessage').should('have.text', '');
 
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "programmingLanguage": 21,
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
         cy.get('#errorMessage').should('have.text', '');
 
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "programmingLanguage": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on invalid type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "foo",
                 "name": "My Test Software",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#name').should('have.value', '');
 
@@ -92,14 +92,14 @@ describe('Document validation', function() {
     });
 
     it('errors on invalid field name', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "foobar": "baz",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#name').should('have.value', '');
 
@@ -109,105 +109,105 @@ describe('Document validation', function() {
 
 describe('URLs validation', function() {
     it('accepts valid URL', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": "http://example.org/",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts empty list of URLs', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": [],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts list of valid URLs', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": ["http://example.org/", "http://example.com/"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on invalid URL', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": "foo",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Invalid URL in field "codeRepository": "foo"');
     });
 
     it('errors on non-string instead of URL', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"codeRepository" must be an URL (or a list of URLs), not: {}');
     });
 
     it('errors on list with an invalid URL at the end', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": ["http://example.org/", "foo"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Invalid URL in field "codeRepository": "foo"');
     });
 
     it('errors on list with an invalid URL at the beginning', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": ["http://example.org/", "foo"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Invalid URL in field "codeRepository": "foo"');
     });
 
     it('errors on non-string in URL list', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "codeRepository": ["http://example.org/", {}],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"codeRepository" must be a list of URLs (or a single URL), but it contains: {}');
     });
@@ -215,9 +215,9 @@ describe('URLs validation', function() {
 
 describe('Things or URLs validation', function() {
     it('accepts valid Thing', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {
                     "@type": "SoftwareApplication",
@@ -225,41 +225,41 @@ describe('Things or URLs validation', function() {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts valid URL', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": "http://example.org/",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts empty list of Things', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": [],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts list of Things', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": [
                     {
@@ -273,54 +273,54 @@ describe('Things or URLs validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on non-URL string', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "license": "Copyright 2021 Myself",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"license" must be an URL or a CreativeWork/SoftwareSourceCode/SoftwareApplication object, not: "Copyright 2021 Myself"');
     });
 
     it('errors on wrong type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": 42,
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" must be a CreativeWork/SoftwareSourceCode/SoftwareApplication object or URI, not 42');
     });
 
     it('errors on non-Thing object', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" must be a (list of) CreativeWork/SoftwareSourceCode/SoftwareApplication object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on list with an invalid Thing at the beginning', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": [
                     {},
@@ -331,15 +331,15 @@ describe('Things or URLs validation', function() {
                 ],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" must be a (list of) CreativeWork/SoftwareSourceCode/SoftwareApplication object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on list with an invalid Thing at the end', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": [
                     {
@@ -350,7 +350,7 @@ describe('Things or URLs validation', function() {
                 ],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" must be a (list of) CreativeWork/SoftwareSourceCode/SoftwareApplication object(s) or an URI, but is missing a type/@type.');
     });
@@ -358,92 +358,92 @@ describe('Things or URLs validation', function() {
 
 describe('Texts or URLs validation', function() {
     it('accepts valid Text', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": "foo",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts valid URL', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": "http://example.org/",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts empty list of Texts', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": [],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts list of Texts', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": ["foo", "bar"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on non-string instead of Text', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"applicationCategory" must be a text/URL (or a list of texts/URLs), not: {}');
     });
 
     it('errors on list with an invalid Text at the beginning', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": [{}, "foo"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"applicationCategory" must be a list of texts/URLs (or a single text/URL), but it contains: {}');
     });
 
     it('errors on list with an invalid Text at the end', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "applicationCategory": ["foo", {}],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"applicationCategory" must be a list of texts/URLs (or a single text/URL), but it contains: {}');
     });
@@ -451,53 +451,53 @@ describe('Texts or URLs validation', function() {
 
 describe('Text validation', function() {
     it('accepts valid Text', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "description": "foo",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on empty list of Texts', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "description": [],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"description" must be text, not []');
     });
 
     it('errors on list of Texts', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "description": ["foo", "bar"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"description" must be text, not ["foo","bar"]');
     });
 
     it('errors on non-string instead of Text', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "description": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"description" must be text, not {}');
     });
@@ -505,66 +505,66 @@ describe('Text validation', function() {
 
 describe('Date validation', function() {
     it('accepts valid Date', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "dateCreated": "2020-03-18",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on empty list of Dates', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "dateCreated": [],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"dateCreated" must be a date, not []');
     });
 
     it('errors on list of Dates', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "dateCreated": ["2020-03-18", "2020-03-19"],
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"dateCreated" must be a date, not ["2020-03-18","2020-03-19"]');
     });
 
     it('errors on non-string instead of Date', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "dateCreated": {},
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"dateCreated" must be a date, not {}');
     });
 
     it('errors on non-Date string', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "dateCreated": "foo",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"dateCreated" must be a date in the format YYYY-MM-DD, not "foo"');
     });
@@ -572,22 +572,22 @@ describe('Date validation', function() {
 
 describe('Person validation', function() {
     it('accepts URI', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": "http://example.org/~jdoe",
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts valid complete Person', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "@type": "Person",
@@ -604,44 +604,44 @@ describe('Person validation', function() {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on Person with missing type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on Person with wrong type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "SoftwareSourceCode",
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" type must be a (list of) Role/Person/Organization object(s), not "SoftwareSourceCode"');
     });
 
     it('errors on Person with unknown field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "Person",
@@ -649,15 +649,15 @@ describe('Person validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Unknown field "foo" in "author".');
     });
 
     it('errors on Person with invalid field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "Person",
@@ -665,15 +665,15 @@ describe('Person validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"email" must be text, not 32');
     });
 
     it('accepts URI in list', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     "http://example.org/~jadoe",
@@ -686,15 +686,15 @@ describe('Person validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts list of valid Person', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -712,15 +712,15 @@ describe('Person validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('accepts Person with multiple affiliations', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "@type": "Person",
@@ -739,15 +739,15 @@ describe('Person validation', function() {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on list with invalid Person at the beginning', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -764,15 +764,15 @@ describe('Person validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on list with invalid Person at the end', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -788,7 +788,7 @@ describe('Person validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
@@ -796,9 +796,9 @@ describe('Person validation', function() {
 
 describe('Organization validation', function() {
     it('accepts valid complete Organization', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "@type": "Organization",
@@ -810,44 +810,44 @@ describe('Organization validation', function() {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on Organization with missing type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on Organization with wrong type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "SoftwareSourceCode",
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" type must be a (list of) Role/Person/Organization object(s), not "SoftwareSourceCode"');
     });
 
     it('errors on Organization with unknown field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "Organization",
@@ -855,15 +855,15 @@ describe('Organization validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Unknown field "foo" in "author".');
     });
 
     it('errors on Organization with invalid field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": {
                     "type": "Organization",
@@ -871,15 +871,15 @@ describe('Organization validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"email" must be text, not 32');
     });
 
     it('accepts list of valid Organization', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -895,15 +895,15 @@ describe('Organization validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on list with invalid Organization at the beginning', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -916,15 +916,15 @@ describe('Organization validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on list with invalid Organization at the end', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "author": [
                     {
@@ -937,7 +937,7 @@ describe('Organization validation', function() {
                 ]
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"author" must be a (list of) Role/Person/Organization object(s) or an URI, but is missing a type/@type.');
     });
@@ -945,9 +945,9 @@ describe('Organization validation', function() {
 
 describe('CreativeWork validation', function() {
     it('accepts valid CreativeWork', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "Small Software",
                 "isPartOf": {
@@ -958,44 +958,44 @@ describe('CreativeWork validation', function() {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
     });
 
     it('errors on CreativeWork with missing type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {
                 }
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" must be a (list of) CreativeWork/SoftwareSourceCode/SoftwareApplication object(s) or an URI, but is missing a type/@type.');
     });
 
     it('errors on CreativeWork with wrong type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {
                     "type": "Person",
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"isPartOf" type must be a (list of) CreativeWork/SoftwareSourceCode/SoftwareApplication object(s), not "Person"');
     });
 
     it('errors on CreativeWork with unknown field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {
                     "type": "CreativeWork",
@@ -1003,15 +1003,15 @@ describe('CreativeWork validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', 'Unknown field "foo" in "isPartOf".');
     });
 
     it('errors on CreativeWork with invalid field', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "isPartOf": {
                     "type": "CreativeWork",
@@ -1019,7 +1019,7 @@ describe('CreativeWork validation', function() {
                 },
             }))
         );
-        cy.get('#validateCodemeta').click();
+        cy.get('#validateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '"url" must be an URL (or a list of URLs), not: 32');
     });

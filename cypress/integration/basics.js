@@ -23,12 +23,12 @@ describe('JSON Generation', function() {
 
     it('works just from the software name', function() {
         cy.get('#name').type('My Test Software');
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
         });
@@ -41,13 +41,13 @@ describe('JSON Generation', function() {
         cy.get('#datePublished').type('2020-01-01');
         cy.get('#license').type('AGPL-3.0');
         cy.get("#license").type('{enter}');
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get("#license").should('have.value', '');
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "license": "https://spdx.org/licenses/AGPL-3.0",
                 "dateCreated": "2019-10-02",
@@ -67,13 +67,13 @@ describe('JSON Generation', function() {
         cy.get('#license').type('MIT');
         cy.get("#license").type('{enter}');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get("#license").should('have.value', '');
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "license": ["https://spdx.org/licenses/AGPL-3.0", "https://spdx.org/licenses/MIT"],
                 "dateCreated": "2019-10-02",
@@ -90,13 +90,13 @@ describe('JSON Generation', function() {
         cy.get('#datePublished').type('2020-01-01');
         cy.get('#license').type('AGPL-3.0');
         // no cy.get("#license").type('{enter}'); here
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get("#license").should('have.value', '');
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "license": "https://spdx.org/licenses/AGPL-3.0",
                 "dateCreated": "2019-10-02",
@@ -106,18 +106,18 @@ describe('JSON Generation', function() {
         });
     });
 
-    it('works for new codemeta terms in both versions', function() {
+    it('works for new servicemeta terms in both versions', function() {
         cy.get('#name').type('My Test Software');
         cy.get('#contIntegration').type('https://test-ci.org/my-software');
         cy.get('#isSourceCodeOf').type('Bigger Application');
         cy.get('#reviewAspect').type('Some software aspect');
         cy.get('#reviewBody').type('Some review');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "contIntegration": "https://test-ci.org/my-software",
@@ -134,9 +134,9 @@ describe('JSON Generation', function() {
                 }
         });
 
-        cy.get('#generateCodemetaV3').click();
+        cy.get('#generateServicemetaV3').click();
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",
@@ -157,22 +157,22 @@ describe('JSON Generation', function() {
 
 describe('JSON Import', function() {
     it('works just from the software name', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#name').should('have.value', 'My Test Software');
     });
 
     it('works just from all main fields when using license as string', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "license": "https://spdx.org/licenses/AGPL-3.0",
                 "dateCreated": "2019-10-02",
@@ -181,7 +181,7 @@ describe('JSON Import', function() {
                 "description": "This is a\ngreat piece of software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#name').should('have.value', 'My Test Software');
         cy.get('#description').should('have.value', 'This is a\ngreat piece of software');
@@ -193,9 +193,9 @@ describe('JSON Import', function() {
     });
 
     it('works just from all main fields when using license as array', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "license": ["https://spdx.org/licenses/AGPL-3.0", "https://spdx.org/licenses/MIT"],
                 "dateCreated": "2019-10-02",
@@ -204,7 +204,7 @@ describe('JSON Import', function() {
                 "description": "This is a\ngreat piece of software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#name').should('have.value', 'My Test Software');
         cy.get('#description').should('have.value', 'This is a\ngreat piece of software');
@@ -217,7 +217,7 @@ describe('JSON Import', function() {
     });
 
     it('works with expanded document version', function () {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
                 "http://schema.org/name": [
                     {
@@ -229,20 +229,20 @@ describe('JSON Import', function() {
                 ]
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#name').should('have.value', 'My Test Software');
     });
 
     it('errors on invalid type', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "foo",
                 "name": "My Test Software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         // Should still be imported as much as possible
         cy.get('#name').should('have.value', 'My Test Software');
@@ -252,14 +252,14 @@ describe('JSON Import', function() {
     });
 
     it('allows singleton array as context', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": ["https://doi.org/10.5063/schema/codemeta-2.0"],
+                "@context": ["https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld"],
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#name').should('have.value', 'My Test Software');
     });

@@ -6,7 +6,7 @@
  */
 
 /*
- * Reads a Codemeta file and shows human-friendly errors on it.
+ * Reads a Servicemeta file and shows human-friendly errors on it.
  *
  * This validator intentionaly does not use a schema, in order to show errors
  * that are easy to understand for users with no understanding of JSON-LD.
@@ -65,15 +65,15 @@ function validateDocument(doc) {
 }
 
 
-async function parseAndValidateCodemeta(showPopup) {
-    var codemetaText = document.querySelector('#codemetaText').innerText;
+async function parseAndValidateServicemeta(showPopup) {
+    var servicemetaText = document.querySelector('#servicemetaText').innerText;
     let parsed, doc;
 
     try {
-        parsed = JSON.parse(codemetaText);
+        parsed = JSON.parse(servicemetaText);
     }
     catch (e) {
-        setError(`Could not read codemeta document because it is not valid JSON (${e}). Check for missing or extra quote, colon, or bracket characters.`);
+        setError(`Could not read servicemeta document because it is not valid JSON (${e}). Check for missing or extra quote, colon, or bracket characters.`);
         return;
     }
 
@@ -89,6 +89,5 @@ async function parseAndValidateCodemeta(showPopup) {
         }
     }
 
-    doc = await jsonld.compact(parsed, CODEMETA_CONTEXTS["2.0"].url); // Only import codemeta v2.0 for now
-    return doc;
+    doc = await jsonld.compact(parsed, SERVICEMETA_CONTEXTS["0.1"].url); 
 }

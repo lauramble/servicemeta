@@ -48,7 +48,7 @@ function createPersonFieldset(personPrefix, legend) {
                 placeholder="jane.doe@example.org" />
         </p>
         <p>
-            <label for="${personPrefix}_id">URI</label>
+            <label for="${personPrefix}_id">Identifier</label>
             <input type="url" id="${personPrefix}_id" name="${personPrefix}_id"
                 placeholder="http://orcid.org/0000-0002-1825-0097" />
         </p>
@@ -108,7 +108,7 @@ function movePerson(prefix, id1, direction) {
     });
 
     // Form was changed; regenerate
-    generateCodemeta();
+    generateServicemeta();
 }
 
 function addPerson(prefix, legend) {
@@ -200,31 +200,29 @@ function initCallbacks() {
     document.querySelector('#license')
         .addEventListener('change', validateLicense);
 
-    document.querySelector('#generateCodemetaV2').disabled = false;
-    document.querySelector('#generateCodemetaV2')
-        .addEventListener('click', () => generateCodemeta("2.0"));
-
-    document.querySelector('#generateCodemetaV3').disabled = false;
-    document.querySelector('#generateCodemetaV3')
-        .addEventListener('click', () => generateCodemeta("3.0"));
+    document.querySelector('#generateServicemeta').disabled = false;
+    document.querySelector('#generateServicemeta')
+        .addEventListener('click', () => generateServicemeta("0.1"));
 
     document.querySelector('#resetForm')
         .addEventListener('click', resetForm);
 
-    document.querySelector('#validateCodemeta').disabled = false;
-    document.querySelector('#validateCodemeta')
-        .addEventListener('click', () => parseAndValidateCodemeta(true));
+    document.querySelector('#validateServicemeta').disabled = false;
+    document.querySelector('#validateServicemeta')
+        .addEventListener('click', () => parseAndValidateServicemeta(true));
 
-    document.querySelector('#importCodemeta').disabled = false;
-    document.querySelector('#importCodemeta')
-        .addEventListener('click', importCodemeta);
+    document.querySelector('#importServicemeta').disabled = false;
+    document.querySelector('#importServicemeta')
+        .addEventListener('click', importServicemeta);
 
     document.querySelector('#inputForm')
-        .addEventListener('change', () => generateCodemeta());
+        .addEventListener('change', () => generateServicemeta());
 
+    /*
     document.querySelector('#developmentStatus')
         .addEventListener('change', fieldToLower);
-
+    */
+   
     initPersons('author', 'Author');
     initPersons('contributor', 'Contributor');
 }

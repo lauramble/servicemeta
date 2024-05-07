@@ -60,13 +60,13 @@ function validateLicense(e) {
 
         licenseField.value = "";
         licenseField.setCustomValidity('');
-        generateCodemeta();
+        generateServicemeta();
     }
 }
 
 function removeLicense(btn) {
     btn.parentElement.remove();
-    generateCodemeta();
+    generateServicemeta();
 }
 
 function initFields() {

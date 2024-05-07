@@ -14,26 +14,26 @@
 describe('Zero author', function() {
     it('can be exported', function() {
         cy.get('#name').type('My Test Software');
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
         });
     });
 
     it('can be imported from no list', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#author_nb').should('have.value', '0');
         cy.get('#author_0').should('not.exist');
@@ -41,15 +41,15 @@ describe('Zero author', function() {
     });
 
     it('can be imported from empty list', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [],
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#author_nb').should('have.value', '0');
         cy.get('#author_0').should('not.exist');
@@ -84,12 +84,12 @@ describe('One full author', function() {
         cy.get('#author_1_id').type('http://example.org/~jdoe');
         cy.get('#author_1_affiliation').type('http://example.org/');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -109,9 +109,9 @@ describe('One full author', function() {
     });
 
     it('can be imported', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -129,7 +129,7 @@ describe('One full author', function() {
                 ],
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#author_nb').should('have.value', '1');
         cy.get('#author_0').should('not.exist');
@@ -151,12 +151,12 @@ describe('Affiliation id', function() {
         cy.get('#author_1_givenName').type('Jane');
         cy.get('#author_1_affiliation').type('http://example.org/');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -173,9 +173,9 @@ describe('Affiliation id', function() {
     });
 
     it('can be imported', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -193,7 +193,7 @@ describe('Affiliation id', function() {
                 ],
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#author_nb').should('have.value', '1');
         cy.get('#author_0').should('not.exist');
@@ -211,12 +211,12 @@ describe('Affiliation name', function() {
         cy.get('#author_1_givenName').type('Jane');
         cy.get('#author_1_affiliation').type('Example Org');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -233,9 +233,9 @@ describe('Affiliation name', function() {
     });
 
     it('can be imported', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -253,7 +253,7 @@ describe('Affiliation name', function() {
                 ],
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#author_nb').should('have.value', '1');
         cy.get('#author_0').should('not.exist');
@@ -309,7 +309,7 @@ describe('Author order change', function() {
         cy.get('#author_3_affiliation').should('have.value', '');
     });
 
-    it('updates generated Codemeta', function() {
+    it('updates generated Servicemeta', function() {
         cy.get('#name').type('My Test Software');
 
         cy.get('#author_add').click();
@@ -319,11 +319,11 @@ describe('Author order change', function() {
         cy.get('#author_2_givenName').type('John');
         cy.get('#author_2_familyName').type('Doe');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -345,9 +345,9 @@ describe('Author order change', function() {
 
         cy.get('#author_1_moveToRight').click();
 
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -424,7 +424,7 @@ describe('Author order change', function() {
 });
 
 describe('One author with a role', function () {
-    it('can be exported in both codemeta v2.0 and v3.0 versions', function () {
+    it('can be exported in both codemeta .0 and v3.0 versions', function () {
         cy.get('#name').type('My Test Software');
 
         cy.get('#author_add').click();
@@ -435,10 +435,10 @@ describe('One author with a role', function () {
         cy.get('#author_1_startDate_0').type('2024-03-04');
         cy.get('#author_1_endDate_0').type('2024-04-03');
 
-        cy.get('#generateCodemetaV2').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemeta').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "author": [
@@ -459,8 +459,8 @@ describe('One author with a role', function () {
                 ]
             });
 
-        cy.get('#generateCodemetaV3').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemetaV3').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",
@@ -500,8 +500,8 @@ describe('One author with a role', function () {
         cy.get('#author_1_startDate_1').type('2024-04-04');
         cy.get('#author_1_endDate_1').type('2024-05-05');
 
-        cy.get('#generateCodemetaV3').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemetaV3').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",
@@ -552,8 +552,8 @@ describe('One author with a role', function () {
         cy.get('#author_1_startDate_1').type('2024-04-04');
         cy.get('#author_1_endDate_1').type('2024-05-05');
 
-        cy.get('#generateCodemetaV3').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemetaV3').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",
@@ -602,8 +602,8 @@ describe('Multiple authors', function () {
         cy.get('#author_2_startDate_0').type('2024-04-04');
         cy.get('#author_2_endDate_0').type('2024-05-05');
 
-        cy.get('#generateCodemetaV3').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemetaV3').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",
@@ -655,8 +655,8 @@ describe('Multiple authors', function () {
         cy.get('#author_1_startDate_0').type('2024-03-04');
         cy.get('#author_1_endDate_0').type('2024-04-03');
 
-        cy.get('#generateCodemetaV3').click();
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#generateServicemetaV3').click();
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
                 "@context": "https://w3id.org/codemeta/3.0",
                 "type": "SoftwareSourceCode",

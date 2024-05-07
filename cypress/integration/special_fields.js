@@ -16,12 +16,12 @@ describe('Funder id', function() {
 
         cy.get('#funder').type('http://example.org/');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "funder": {
@@ -32,9 +32,9 @@ describe('Funder id', function() {
     });
 
     it('can be imported', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "funder": {
@@ -43,7 +43,7 @@ describe('Funder id', function() {
                 },
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#funder').should('have.value', 'http://example.org/');
     });
@@ -55,12 +55,12 @@ describe('Funder name', function() {
 
         cy.get('#funder').type('Example Org');
 
-        cy.get('#generateCodemetaV2').click();
+        cy.get('#generateServicemeta').click();
 
         cy.get('#errorMessage').should('have.text', '');
-        cy.get('#codemetaText').then((elem) => JSON.parse(elem.text()))
+        cy.get('#servicemetaText').then((elem) => JSON.parse(elem.text()))
             .should('deep.equal', {
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "funder": {
@@ -71,9 +71,9 @@ describe('Funder name', function() {
     });
 
     it('can be imported', function() {
-        cy.get('#codemetaText').then((elem) =>
+        cy.get('#servicemetaText').then((elem) =>
             elem.text(JSON.stringify({
-                "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+                "@context": "https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld",
                 "@type": "SoftwareSourceCode",
                 "name": "My Test Software",
                 "funder": {
@@ -82,7 +82,7 @@ describe('Funder name', function() {
                 }
             }))
         );
-        cy.get('#importCodemeta').click();
+        cy.get('#importServicemeta').click();
 
         cy.get('#funder').should('have.value', 'Example Org');
     });
