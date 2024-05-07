@@ -6,7 +6,7 @@
       "Organization": {"@id": "schema:Organization"},
       "Person": {"@id": "schema:Person"},
       "WebApplication": {"@id": "schema:WebApplication"},
-      "WebAPI": {"id": "schema:WebAPI"},
+      "WebAPI": {"@id": "schema:WebAPI"},
       "Text": {"@id": "schema:Text"},
       "URL": {"@id": "schema:URL"},
       
