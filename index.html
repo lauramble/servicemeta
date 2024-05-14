@@ -40,7 +40,7 @@ See top-level LICENSE file for more information
 
     <form id="inputForm">
         <fieldset id="fieldsetSoftwareItself" class="leafFieldset">
-            <legend>The software itself</legend>
+            <legend>The service itself</legend>
 
             <p title="The shortened name of the web service">
                 <label for="name">Name</label>
@@ -138,7 +138,7 @@ See top-level LICENSE file for more information
                     placeholder="PRA_2018_73"/>
 
                 <br />
-                <span class="field-description" id="funding_descr">grant funding software development</span>
+                <span class="field-description" id="funding_descr">grant funding development</span>
             </p>
 
             <p title="Funding / organization">
@@ -147,7 +147,7 @@ See top-level LICENSE file for more information
                     placeholder="Università di Pisa"/>
 
                 <br />
-                <span class="field-description" id="funder_descr">organization funding software development</span>
+                <span class="field-description" id="funder_descr">organization funding development</span>
             </p>
 
             Authors and contributors can be added below
@@ -177,21 +177,21 @@ See top-level LICENSE file for more information
         </fieldset>
 
         <fieldset id="fieldsetCurrentVersion" class="leafFieldset">
-            <legend>Current version of the software</legend>
+            <legend>Current version of the service</legend>
 
-            <p title="Version number of the software">
+            <p title="Version number of the service">
                 <label for="version">Version number</label>
                 <input type="text" name="version" id="version"
                     placeholder="1.0.0" />
             </p>
 
-            <p title="The date on which the software was most recently modified.">
+            <p title="The date on which the service was most recently modified.">
                 <label for="dateModified">Release date</label>
                 <input type="text" name="dateModified" id="dateModified"
                     placeholder="YYYY-MM-DD" pattern="\d{4}-\d{2}-\d{2}" />
             </p>
 
-            <p title="a brief description of the software">
+            <p title="A brief description of the service">
                 <label for="releaseNotes">Release notes</label>
                 <br />
                 <textarea rows="4" cols="50"
@@ -200,8 +200,6 @@ See top-level LICENSE file for more information
 "Change log: this and that;
 Bugfixes: that and this." ></textarea>
             </p>
-
-<!--TODO: referencePublication as ScholarlyArticle array -->
 
         </fieldset>
 
@@ -221,7 +219,6 @@ Bugfixes: that and this." ></textarea>
                     placeholder="json, csv, tiff" />
             </p>
 
-<!--TODO: referencePublication as ScholarlyArticle array -->
 
         </fieldset>
 
@@ -272,29 +269,26 @@ Bugfixes: that and this." ></textarea>
   </main>
 
   <footer>
-    <p style="text-align:center;">
-        Do you want to improve this tool ?
-        Check out the
-        <a href="https://github.com/codemeta/codemeta-generator">
-            ServiceMeta-generator repository</a>
+    <p style="text-align:right;">
+        Based on the
+        <a href="https://codemeta.github.io/codemeta-generator/">
+            CodeMeta generator</a>
+         contributed by
+        <p style="text-align:right;">
+            <a href="https://www.softwareheritage.org/save-and-reference-research-software/">
+                <img alt="Software Heritage" src="https://annex.softwareheritage.org/public/logo/software-heritage-logo-title-motto.svg"
+                    width="300">
+            </a>
+        </p>
         <br />
         Join the
-        <a href="https://github.com/codemeta/codemeta">ServiceMeta community</a>
+        <a href="https://gitlab.ebrains.eu/data-services/servicemeta">ServiceMeta community</a>
         discussion
         <br />
         The ServiceMeta vocabulary -
-        <a href="https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld">v2.0</a>
-        -
-        <a href="https://w3id.org/codemeta/3.0">v3.0</a>
+        <a href="https://gitlab.ebrains.eu/lauramble/servicemeta/-/raw/main/data/contexts/servicemeta.jsonld">v0.1</a>
     </p>
-
-    <h2 style="text-align:right;">Contributed by</h2>
-    <p style="text-align:right;">
-        <a href="https://www.softwareheritage.org/save-and-reference-research-software/">
-            <img alt="Software Heritage" src="https://annex.softwareheritage.org/public/logo/software-heritage-logo-title-motto.svg"
-                width="300">
-        </a>
-    </p>
+    
   </footer>
 
   <script src="./js/libs/jsonld/jsonld.min.js"></script>
