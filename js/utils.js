@@ -7,6 +7,13 @@
 
 "use strict";
 
+/*
+ * Returns the overlap between an Object's keys and an array of fields.
+ */
+function getFieldsInObject(doc, fields) {
+    return Object.keys(doc).filter(value => fields.includes(value));
+}
+
 function getNbPersons(prefix) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     return parseInt(nbField.value, 10);
@@ -19,6 +26,18 @@ function setNbPersons(prefix, nb) {
 
 function setError(msg) {
     document.querySelector("#errorMessage").innerHTML = msg;
+}
+
+/*
+ * Checks if exactly one of the elements in an array is a key in the doc Object. If so, returns the value
+ */
+function getIfExactlyOneField(doc, fields) {
+    var fieldsarray = getFieldsInObject(doc, fields);
+    if (fieldsarray.length == 1) {
+        return doc[fieldsarray[0]]
+    } else {
+        setError("Error! Expected exactly one of these properties: ${fields} but got ${fieldsarray.length}.")
+    }
 }
 
 function trimSpaces(s) {

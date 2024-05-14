@@ -20,16 +20,15 @@ function validateDocument(doc) {
     }
     // TODO: validate id/@id
 
-    // TODO: check there is either type or @type but not both
     var type = getDocumentType(doc);
     if (type === undefined) {
-        setError("Missing type (must be SoftwareSourceCode or SoftwareApplication).")
+        setError("Missing type (must be WebAPI or WebApplication).")
         return false;
     }
-    else if (!isCompactTypeEqual(type, "SoftwareSourceCode") && !isCompactTypeEqual(type, "SoftwareApplication")) {
+    else if (!isCompactTypeEqual(type, "WebAPI") && !isCompactTypeEqual(type, "WebApplication")) {
         // Check this before other fields, as a wrong type error is more
         // understandable than "invalid field".
-        setError(`Wrong document type: must be "SoftwareSourceCode"/"SoftwareApplication", not ${JSON.stringify(type)}`)
+        setError(`Wrong document type: must be "WebAPI"/"WebApplication", not ${JSON.stringify(type)}`)
         return false;
     }
     else {

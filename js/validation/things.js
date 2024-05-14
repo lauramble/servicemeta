@@ -10,13 +10,11 @@
  */
 
 function getDocumentType(doc) {
-    // TODO: check there is at most one.
-    // FIXME: is the last variant allowed?
-    return doc["type"] || doc["@type"] || doc["servicemeta:type"]
+    return getIfExactlyOneField(doc, ["type", "@type"])
 }
 
 function getDocumentId(doc) {
-    return doc["id"] || doc["@id"];
+    return getIfExactlyOneField(doc, ["id", "@id"]);
 }
 
 function isCompactTypeEqual(type, compactedType) {
@@ -146,8 +144,7 @@ function validateCreativeWorks(fieldName, doc) {
 function validateCreativeWork(fieldName, doc) {
     return validateThingOrId(fieldName, {
         "CreativeWork": creativeWorkFieldValidators,
-        "SoftwareSourceCode": softwareFieldValidators,
-        "SoftwareApplication": softwareFieldValidators,
+        "WebApplication": webApplicationFieldValidators,
     }, doc);
 }
 
@@ -197,17 +194,12 @@ function validateReview(fieldName, doc) {
 }
 */
 
-var softwareFieldValidators = {
+var webApplicationFieldValidators = {
     "@id": validateUrl,
     "id": validateUrl,
 
     "codeRepository": validateUrls,
-    "programmingLanguage": noValidation,
-    "runtimePlatform": validateTexts,
-    "targetProduct": noValidation, // TODO: validate SoftwareApplication
     "applicationCategory": validateTextsOrUrls,
-    "applicationSubCategory": validateTextsOrUrls,
-    "downloadUrl": validateUrls,
     "fileSize": validateText,  // TODO
     "installUrl": validateUrls,
     "memoryRequirements": validateTextsOrUrls,
