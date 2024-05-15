@@ -56,6 +56,7 @@ function emptyToUndefined(v) {
 }
 
 function getIfSet(query) {
+    console.log(query, document)
     return emptyToUndefined(document.querySelector(query).value);
 }
 
@@ -80,7 +81,7 @@ const directServicemetaFields = [
     'documentation',
     'funder',
     'funding',
-    'homepage',
+    'url',
     'identifier',
     'license',
     'name',
@@ -91,8 +92,8 @@ const directServicemetaFields = [
 const splittedServicemetaFields = [
     ['keywords', ','],
     ['relatedLink', '\n'],
-    ['serviceInput', ','],
-    ['serviceOutput', ',']
+    ['inputFormat', ','],
+    ['outputFormat', ',']
 ]
 
 // Names of servicemeta properties with a matching HTML field name,
@@ -101,7 +102,7 @@ const directPersonServicemetaFields = [
     'givenName',
     'familyName',
     'email',
-    'id',
+    'identifier',
     'affiliation',
 ];
 
@@ -148,7 +149,7 @@ function generatePerson(idPrefix) {
     var doc = {
         "@type": "Person",
     }
-    var id = getIfSet(`#${idPrefix}_id`);
+    var id = getIfSet(`#${idPrefix}_identifier`);
     if (id !== undefined) {
         doc["@id"] = id;
     }
@@ -226,7 +227,8 @@ async function buildExpandedJson() {
         doc[item] = getIfSet('#' + item)
     });
 
-    doc["funder"] = generateShortOrg('#funder', doc["affiliation"]);
+    doc["funder"] = generateShortOrg("#funder");
+    console.log(doc["funder"])
 
     /*
     const review = generateReview();
@@ -260,6 +262,7 @@ async function buildExpandedJson() {
            doc[value] = doc[key];
         });
     }
+    console.log(doc["funder"])
     return await jsonld.expand(doc);
 }
 
@@ -314,7 +317,7 @@ function importPersons(prefix, legend, docs) {
     docs.forEach(function (doc, index) {
         var personId = addPerson(prefix, legend);
 
-        setIfDefined(`#${prefix}_${personId}_id`, getDocumentId(doc));
+        setIfDefined(`#${prefix}_${personId}_identifier`, getDocumentId(doc));
         directPersonServicemetaFields.forEach(function (item, index) {
             setIfDefined(`#${prefix}_${personId}_${item}`, doc[item]);
         });
