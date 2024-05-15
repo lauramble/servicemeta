@@ -9,12 +9,15 @@
  * Validators for servicemeta objects derived from http://schema.org/Thing.
  */
 
+FIELD_OTHER_VERSION_IGNORE = ["codemeta:contIntegration", "codemeta:continuousIntegration", "codemeta:isSourceCodeOf",
+"schema:review", "schema:reviewAspect", "schema:reviewBody"];
+
 function getDocumentType(doc) {
     return getIfExactlyOneField(doc, ["type", "@type"])
 }
 
 function getDocumentId(doc) {
-    return getIfExactlyOneField(doc, ["id", "@id"]);
+    return getIfAtMostOneField(doc, ["id", "@id"]);
 }
 
 function isCompactTypeEqual(type, compactedType) {
@@ -27,8 +30,7 @@ function isCompactTypeEqual(type, compactedType) {
 }
 
 function isFieldFromOtherVersionToIgnore(fieldName) {
-    return ["codemeta:contIntegration", "codemeta:continuousIntegration", "codemeta:isSourceCodeOf",
-        "schema:review", "schema:reviewAspect", "schema:reviewBody"].includes(fieldName);
+    return FIELD_OTHER_VERSION_IGNORE.includes(fieldName);
 }
 
 function noValidation(fieldName, doc) {
@@ -224,7 +226,8 @@ var webApplicationFieldValidators = {
     "editor": validatePersons,
     "encoding": noValidation,
     "fileFormat": validateTextsOrUrls,
-    "funder": validateActors, // TODO: may be other types
+    "funder": validateActors,
+    "funding": validateText,
     "keywords": validateTexts,
     "license": validateCreativeWorks,
     "producer": validateActors,
@@ -240,23 +243,14 @@ var webApplicationFieldValidators = {
     "identifier": noValidation, // TODO
     "description": validateText,
     "name": validateText,
+    "alternateName": validateText,
     "sameAs": validateUrls,
     "url": validateUrls,
+    
     "relatedLink": validateUrls,
-    //"review": validateReview,
-
-    "softwareSuggestions": noValidation, // TODO: validate SoftwareSourceCode
-    "maintainer": validateActors,
-    "contIntegration": validateUrls,
-    "continuousIntegration": validateUrls,
-    "buildInstructions": validateUrls,
-    "developmentStatus": validateText, // TODO: use only repostatus strings?
-    "embargoDate": validateDate,
-    "embargoEndDate": validateDate,
-    "funding": validateText,
-    "issueTracker": validateUrls,
-    "referencePublication": noValidation, // TODO?
-    "readme": validateUrls,
+    "documentation": validateUrl,
+    "inputFormat": validateTexts,
+    "outputFormat": validateTexts
 };
 
 var creativeWorkFieldValidators = {
@@ -275,6 +269,7 @@ var creativeWorkFieldValidators = {
     "editor": validatePersons,
     "encoding": noValidation,
     "funder": validateActors, // TODO: may be other types
+    "funding": validateText,
     "keywords": validateTexts,
     "license": validateCreativeWorks,
     "producer": validateActors,

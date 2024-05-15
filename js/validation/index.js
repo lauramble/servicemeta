@@ -48,7 +48,7 @@ function validateDocument(doc) {
                 return true;
             }
             else {
-                var validator = softwareFieldValidators[fieldName];
+                var validator = webApplicationFieldValidators[fieldName];
                 if (validator === undefined) {
                     // TODO: find if it's a field that belongs to another type,
                     // and suggest that to the user
