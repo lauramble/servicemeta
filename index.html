@@ -58,12 +58,12 @@ See top-level LICENSE file for more information
                 <span class="field-description" id="fullname_descr">the full name of the web service</span>
             </p>
 
-            <p title="The web service homepage">
-                <label for="homepage">Homepage</label>
-                <input type="text" name="homepage" id="homepage" aria-describedby="homepage_desc"
+            <p title="The web service url">
+                <label for="url">URL</label>
+                <input type="text" name="url" id="url" aria-describedby="url_desc"
                     placeholder="https://hbp-bsp-hhnb.cineca.it/hh-neuron-builder/" required="required" />
 
-                <span class="field-description" id="homepage_descr">webservice website</span>
+                <span class="field-description" id="homepage_descr">the url used to access the webservice</span>
             </p>
 
             <p title="A brief description of the service">
@@ -206,16 +206,16 @@ Bugfixes: that and this." ></textarea>
         <fieldset id="inputsAndOutputs" class="leafFieldset">
 
             <p title="Comma-separated list of formats accepted as input by the service.">
-                <label for="serviceInput">Input Formats</label>
-                <input type="text" name="serviceInput" id="serviceInput"
+                <label for="inputFormat">Input Formats</label>
+                <input type="text" name="inputFormat" id="inputFormat"
                     placeholder="yaml, txt, fastq" />
             </p>
 
             <legend>Inputs and Outputs</legend>
 
             <p title="Comma-separated list of possible formats for the service's output.">
-                <label for="serviceOutput">Output Formats</label>
-                <input type="text" name="serviceOutput" id="serviceOutput"
+                <label for="outputFormat">Output Formats</label>
+                <input type="text" name="outputFormat" id="outputFormat"
                     placeholder="json, csv, tiff" />
             </p>
 

@@ -32,8 +32,10 @@
       "familyName": { "@id": "schema:familyName"},
       "givenName": { "@id": "schema:givenName"},
       "email": { "@id": "schema:email"},
+      "name": { "@id": "schema:name"},
 
-      "serviceInput": {"@id": "servicemeta:serviceInput"}
+      "inputFormat": {"@id": "servicemeta:inputFormat", "@container": "@list"},
+      "outputFormat": {"@id": "servicemeta:outputFormat", "@container": "@list"}
 
   }
 }
