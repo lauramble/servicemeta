@@ -36,7 +36,20 @@ function getIfExactlyOneField(doc, fields) {
     if (fieldsarray.length == 1) {
         return doc[fieldsarray[0]]
     } else {
-        setError("Error! Expected exactly one of these properties: ${fields} but got ${fieldsarray.length}.")
+        setError(`"Error! Expected exactly one of these properties: ${fields} but got ${fieldsarray.length}."`)
+    }
+}
+
+/*
+ * Checks if at most one of the elements in an array is a key in the doc Object. If one is present, returns the value
+ */
+function getIfAtMostOneField(doc, fields) {
+    var fieldsarray = getFieldsInObject(doc, fields);
+    var nfields = fieldsarray.length;
+    if (nfields === 1) {
+        return doc[fieldsarray[0]]
+    } else if (nfields > 1) {
+        setError(`"Error! Expected at most one of these properties: ${fields} but got ${fieldsarray.length}."`)
     }
 }
 
