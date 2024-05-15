@@ -12,7 +12,7 @@ const personFields = [
     'givenName',
     'familyName',
     'email',
-    'id',
+    'identifier',
     'affiliation',
 ];
 
@@ -48,8 +48,8 @@ function createPersonFieldset(personPrefix, legend) {
                 placeholder="jane.doe@example.org" />
         </p>
         <p>
-            <label for="${personPrefix}_id">Identifier</label>
-            <input type="url" id="${personPrefix}_id" name="${personPrefix}_id"
+            <label for="${personPrefix}_identifier">Identifier</label>
+            <input type="url" id="${personPrefix}_identifier" name="${personPrefix}_identifier"
                 placeholder="http://orcid.org/0000-0002-1825-0097" />
         </p>
         <p>
@@ -76,7 +76,7 @@ function addPersonWithId(container, prefix, legend, id) {
         .addEventListener('click', () => movePerson(prefix, id, "right"));
     document.querySelector(`#${personPrefix}_role_add`)
         .addEventListener('click', () => addRole(personPrefix));
-}
+}   
 
 function movePerson(prefix, id1, direction) {
     var nbPersons = getNbPersons(prefix);
