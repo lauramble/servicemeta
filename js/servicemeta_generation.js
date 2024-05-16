@@ -184,7 +184,7 @@ function generateRoles(idPrefix, person) {
 
 function generatePersons(prefix) {
     var persons = [];
-    var nbPersons = getNbActors(prefix);
+    var nbPersons = getNbChildren(prefix);
 
     for (let personId = 1; personId <= nbPersons; personId++) {
         const idPrefix = `${prefix}_${personId}`;

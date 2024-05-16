@@ -14,18 +14,43 @@ function getFieldsInObject(doc, fields) {
     return Object.keys(doc).filter(value => fields.includes(value));
 }
 
-function getNbActors(prefix) {
+function getNbChildren(prefix) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     return parseInt(nbField.value, 10);
 }
 
-function setNbActors(prefix, nb) {
+function setNbChildren(prefix, nb) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     nbField.value = nb;
 }
 
 function setError(msg) {
     document.querySelector("#errorMessage").innerHTML = msg;
+}
+
+function updateDropdown() {
+    // Handle dropdown menus
+    var dropdownHeaders = document.getElementsByClassName("dropdownHeader");
+    var dropdownContents = document.getElementsByClassName("dropdownContent");
+
+    if (dropdownHeaders.length === dropdownContents.length) {
+        for (let i = 0; i < dropdownHeaders.length; i++) {
+            dropdownHeaders[i].addEventListener('click', function() {
+                dropdownContents[i].style.display = dropdownContents[i].style.display === "block" ? "none" : "block";
+            });
+        }
+
+    }
+}
+
+function closeAllDropdown(){
+    console.log("CLOSE");
+    var dropdownContents = document.getElementsByClassName("dropdownContent");
+
+    for (let i = 0; i < dropdownContents.length; i++) {
+        dropdownContents[i].style.display = "none";
+        
+    }
 }
 
 /*

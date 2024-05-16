@@ -169,7 +169,7 @@ function replaceActor(prefix, actorType, legend, id, fieldsValues) {
 
 function moveActor(prefix, id1, direction, legend) {
     console.log("hello");
-    var nbActors = getNbActors(prefix);
+    var nbActors = getNbChildren(prefix);
     var id2;
 
     // Computer id2, the id of the person to flip id1 with (wraps around the
@@ -212,28 +212,28 @@ function moveActor(prefix, id1, direction, legend) {
 
 function addActor(prefix, legend, type) {
     var container = document.querySelector(`#${prefix}_container`);
-    var actorId = getNbActors(prefix) + 1;
+    var actorId = getNbChildren(prefix) + 1;
 
     addActorWithId(container, type, prefix, legend, actorId);
 
-    setNbActors(prefix, actorId);
+    setNbChildren(prefix, actorId);
 
     return actorId;
 }
 
 
 function removeActor(prefix) {
-    var actorId = getNbActors(prefix);
+    var actorId = getNbChildren(prefix);
 
     document.querySelector(`#${prefix}_${actorId}`).remove();
 
-    setNbActors(prefix, actorId - 1);
+    setNbChildren(prefix, actorId - 1);
 }
 
 // Initialize a group of persons (authors, contributors) on page load.
 // Useful if the page is reloaded.
 function initActors(prefix, legend) {
-    var nbActors = getNbActors(prefix);
+    var nbActors = getNbChildren(prefix);
     var personContainer = document.querySelector(`#${prefix}_container`)
 
     for (let actorId = 1; actorId <= nbActors; actorId++) {
@@ -242,7 +242,7 @@ function initActors(prefix, legend) {
 }
 
 function removeActors(prefix) {
-    var nbActors = getNbActors(prefix);
+    var nbActors = getNbChildren(prefix);
     var personContainer = document.querySelector(`#${prefix}_container`)
 
     for (let actorId = 1; actorId <= nbActors; actorId++) {

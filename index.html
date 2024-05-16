@@ -12,6 +12,7 @@ See top-level LICENSE file for more information
     <script src="./js/utils.js"></script>
     <script src="./js/fields_data.js"></script>
     <script src="./js/actor_dynamic_form.js"></script>
+    <script src="./js/funding_dynamic_form.js"></script>
     <script src="./js/servicemeta_generation.js"></script>
     <script src="./js/validation/primitives.js"></script>
     <script src="./js/validation/things.js"></script>
@@ -153,6 +154,21 @@ See top-level LICENSE file for more information
                 <br />
             </p>
 
+            <div class="dynamicFields">
+                <fieldset id="funding_container">
+                    <legend>Authors</legend>
+    
+                    <input type="hidden" id="funding_nb" value="0" />
+                    <div id="addRemoveFunding">
+                        <input type="button" class="btn add" id="funding_add" value="+ Add" 
+                            onclick="addFunding('funding', 'Funding')"/>
+                        <input type="button" id="funding_remove" value="Remove last" class="btn rm"
+                            onclick="removeFunding('funding');" />
+                    </div>
+                    
+                </fieldset>
+            </div>
+
             Authors and contributors can be added below
         </fieldset>
 
@@ -207,14 +223,13 @@ Bugfixes: that and this." ></textarea>
         </fieldset>
 
         <fieldset id="inputsAndOutputs" class="leafFieldset">
+            <legend>Inputs and Outputs</legend>
 
             <p title="Comma-separated list of formats accepted as input by the service.">
                 <label for="inputFormat">Input Formats</label>
                 <input type="text" name="inputFormat" id="inputFormat"
                     placeholder="yaml, txt, fastq" />
             </p>
-
-            <legend>Inputs and Outputs</legend>
 
             <p title="Comma-separated list of possible formats for the service's output.">
                 <label for="outputFormat">Output Formats</label>
@@ -234,8 +249,8 @@ Bugfixes: that and this." ></textarea>
                     <div class="dropdown">
                         <input type="button" class="btn add dropdownHeader" id="dropdownHeaderAuthor" value="+ Add..." />
                         <div class="dropdownContent" id="actorDropdownAuthor">
-                          <a href="" onclick="addActor('author', 'Author', 'person')">Person</a>
-                          <a href="" onclick="addActor('author', 'Author', 'organization')">Organization</a>
+                          <a class="dropdownOption" onclick="addActor('author', 'Author', 'person')">Person</a>
+                          <a class="dropdownOption" onclick="addActor('author', 'Author', 'organization')">Organization</a>
                         </div>
                     </div>
                     <input type="button" id="author_remove" value="Remove last" class="btn rm"
@@ -254,8 +269,8 @@ Bugfixes: that and this." ></textarea>
                     <div class="dropdown">
                         <input type="button" class="btn add dropdownHeader" id="dropdownHeaderContributor" value="+ Add..." />
                         <div class="dropdownContent" id="actorDropdownContributor">
-                          <a href="" onclick="addActor('contributor', 'Contributor', 'person')">Person</a>
-                          <a href="" onclick="addActor('contributor', 'Contributor', 'organization')">Organization</a>
+                          <a class="dropdownOption" onclick="addActor('contributor', 'Contributor', 'person')">Person</a>
+                          <a class="dropdownOption" onclick="addActor('contributor', 'Contributor', 'organization')">Organization</a>
                         </div>
                     </div>
                     <input type="button" id="contributor_remove" value="Remove last" class="btn rm"
@@ -318,18 +333,14 @@ Bugfixes: that and this." ></textarea>
       loadStateFromStorage();
     });
 
-    // Handle dropdown menus
-    var dropdownHeaders = document.getElementsByClassName("dropdownHeader");
-    var dropdownContents = document.getElementsByClassName("dropdownContent");
+    updateDropdown();
 
-    if (dropdownHeaders.length === dropdownContents.length) {
-        for (let i = 0; i < dropdownHeaders.length; i++) {
-            dropdownHeaders[i].addEventListener('click', function() {
-                dropdownContents[i].style.display = dropdownContents[i].style.display === "block" ? "none" : "block";
-            });
-        }
-
+    document.addEventListener("click", function(event) {
+    var targetElement = event.target;
+    if (!targetElement.closest('.dropdown')) {
+      closeAllDropdown();
     }
+  });
 
   </script>
 </body>
