@@ -14,12 +14,12 @@ function getFieldsInObject(doc, fields) {
     return Object.keys(doc).filter(value => fields.includes(value));
 }
 
-function getNbPersons(prefix) {
+function getNbActors(prefix) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     return parseInt(nbField.value, 10);
 }
 
-function setNbPersons(prefix, nb) {
+function setNbActors(prefix, nb) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     nbField.value = nb;
 }

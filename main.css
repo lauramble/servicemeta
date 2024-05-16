@@ -13,7 +13,7 @@
     color: red;
 }
 
-.person {
+.actor {
     display: inline-block;
 }
 
@@ -23,6 +23,10 @@
     gap: 8px;
     list-style-type: none;
     padding: 0;
+}
+
+a.dropdownOption {
+    color: black;
 }
 
 #inputForm {

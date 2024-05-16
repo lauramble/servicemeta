@@ -76,7 +76,7 @@ function addPersonWithId(container, prefix, legend, id) {
         .addEventListener('click', () => movePerson(prefix, id, "right"));
     document.querySelector(`#${personPrefix}_role_add`)
         .addEventListener('click', () => addRole(personPrefix));
-}   
+}
 
 function movePerson(prefix, id1, direction) {
     var nbPersons = getNbPersons(prefix);

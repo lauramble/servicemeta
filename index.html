@@ -11,7 +11,7 @@ See top-level LICENSE file for more information
     <title>ServiceMeta generator</title>
     <script src="./js/utils.js"></script>
     <script src="./js/fields_data.js"></script>
-    <script src="./js/dynamic_form.js"></script>
+    <script src="./js/actor_dynamic_form.js"></script>
     <script src="./js/servicemeta_generation.js"></script>
     <script src="./js/validation/primitives.js"></script>
     <script src="./js/validation/things.js"></script>
@@ -20,6 +20,7 @@ See top-level LICENSE file for more information
     <link rel="stylesheet" type="text/css" href="./servicemeta.css">
 </head>
 <body>
+
   <header>
     <h1>ServiceMeta generator v0.1</h1><!-- Generate servicemeta v2.0 by default for now, allow v3.0 generation by clicking -->
   </header>
@@ -38,9 +39,12 @@ See top-level LICENSE file for more information
         </p>
     </noscript>
 
+    
+
     <form id="inputForm">
         <fieldset id="fieldsetSoftwareItself" class="leafFieldset">
             <legend>The service itself</legend>
+              
 
             <p title="The shortened name of the web service">
                 <label for="name">Name</label>
@@ -145,9 +149,8 @@ See top-level LICENSE file for more information
                 <label for="funder">Funder</label>
                 <input type="text" name="funder" id="funder" aria-describedby="funder_descr"
                     placeholder="Università di Pisa"/>
-
-                <br />
                 <span class="field-description" id="funder_descr">organization funding development</span>
+                <br />
             </p>
 
             Authors and contributors can be added below
@@ -228,11 +231,17 @@ Bugfixes: that and this." ></textarea>
 
                 <input type="hidden" id="author_nb" value="0" />
                 <div id="addRemoveAuthor">
-                    <input type="button" id="author_add" value="Add one"
-                        onclick="addPerson('author', 'Author');" />
-                    <input type="button" id="author_remove" value="Remove last"
-                        onclick="removePerson('author');" />
+                    <div class="dropdown">
+                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderAuthor" value="+ Add..." />
+                        <div class="dropdownContent" id="actorDropdownAuthor">
+                          <a href="" onclick="addActor('author', 'Author', 'person')">Person</a>
+                          <a href="" onclick="addActor('author', 'Author', 'organization')">Organization</a>
+                        </div>
+                    </div>
+                    <input type="button" id="author_remove" value="Remove last" class="btn rm"
+                        onclick="removeActor('author');" />
                 </div>
+                
             </fieldset>
 
             <fieldset class="persons" id="contributor_container">
@@ -242,23 +251,28 @@ Bugfixes: that and this." ></textarea>
 
                 <input type="hidden" id="contributor_nb" value="0" />
                 <div id="addRemoveContributor">
-                    <input type="button" id="contributor_add" value="Add one"
-                        onclick="addPerson('contributor', 'Contributor');" />
-                    <input type="button" id="contributor_remove" value="Remove last"
-                        onclick="removePerson('contributor');" />
+                    <div class="dropdown">
+                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderContributor" value="+ Add..." />
+                        <div class="dropdownContent" id="actorDropdownContributor">
+                          <a href="" onclick="addActor('contributor', 'Contributor', 'person')">Person</a>
+                          <a href="" onclick="addActor('contributor', 'Contributor', 'organization')">Organization</a>
+                        </div>
+                    </div>
+                    <input type="button" id="contributor_remove" value="Remove last" class="btn rm"
+                        onclick="removeActor('contributor');" />
                 </div>
             </fieldset>
         </div>
 
     </form>
     <form>
-      <input type="button" id="generateServicemeta" value="Generate servicemeta.json v0.1" disabled
+      <input class="btn std" type="button" id="generateServicemeta" value="Generate servicemeta.json v0.1" disabled
              title="Creates a servicemeta.json v0.1 file below, from the information provided above." />
-        <input type="button" id="resetForm" value="Reset form"
+        <input class="btn std" type="button" id="resetForm" value="Reset form"
             title="Erases all fields." />
-        <input type="button" id="validateServicemeta" value="Validate servicemeta.json" disabled
+        <input class="btn std" type="button" id="validateServicemeta" value="Validate servicemeta.json" disabled
             title="Checks the servicemeta.json file below is valid, and displays errors." />
-        <input type="button" id="importServicemeta" value="Import servicemeta.json" disabled
+        <input class="btn std" type="button" id="importServicemeta" value="Import servicemeta.json" disabled
             title="Fills the fields above based on the servicemeta.json file below." />
     </form>
 
@@ -303,6 +317,20 @@ Bugfixes: that and this." ></textarea>
       initCallbacks();
       loadStateFromStorage();
     });
+
+    // Handle dropdown menus
+    var dropdownHeaders = document.getElementsByClassName("dropdownHeader");
+    var dropdownContents = document.getElementsByClassName("dropdownContent");
+
+    if (dropdownHeaders.length === dropdownContents.length) {
+        for (let i = 0; i < dropdownHeaders.length; i++) {
+            dropdownHeaders[i].addEventListener('click', function() {
+                dropdownContents[i].style.display = dropdownContents[i].style.display === "block" ? "none" : "block";
+            });
+        }
+
+    }
+
   </script>
 </body>
 </html>
