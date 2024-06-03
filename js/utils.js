@@ -14,9 +14,21 @@ function getFieldsInObject(doc, fields) {
     return Object.keys(doc).filter(value => fields.includes(value));
 }
 
-function getNbChildren(prefix) {
+function getNbChildren_OLD(prefix) {
     var nbField = document.querySelector(`#${prefix}_nb`);
     return parseInt(nbField.value, 10);
+}
+
+function getNbChildren(prefix) {
+    try {
+        return document.querySelectorAll(`#${prefix}_container fieldset`).length;
+    } catch (TypeError) {
+        return 0;
+    } 
+}
+
+function updateNbChildren(prefix) {
+    setNbChildren(prefix, getNbChildren(prefix))
 }
 
 function setNbChildren(prefix, nb) {
@@ -26,6 +38,11 @@ function setNbChildren(prefix, nb) {
 
 function setError(msg) {
     document.querySelector("#errorMessage").innerHTML = msg;
+}
+
+function dropdownListener(header) {
+    const dropdownContent = header.parentElement.querySelector(".dropdownContent");
+    dropdownContent.style.display = dropdownContent.style.display === "block" ? "none" : "block";
 }
 
 function updateDropdown() {
@@ -80,6 +97,14 @@ function getIfAtMostOneField(doc, fields) {
 
 function trimSpaces(s) {
     return s.replace(/^\s+|\s+$/g, '');
+}
+
+function capitalize(s) {
+    if (s.length > 0) {
+        return s[0].toUpperCase() + s.slice(1)
+    } else {
+        return "";
+    }
 }
 
 // From https://stackoverflow.com/a/43467144

@@ -94,3 +94,11 @@ input:invalid {
 .selected-license {
     margin: 2px;
 }
+
+.borderless {
+    border:none;
+}
+
+fieldset.funding {
+    display:inline-block;
+}

@@ -50,7 +50,7 @@ See top-level LICENSE file for more information
             <p title="The shortened name of the web service">
                 <label for="name">Name</label>
                 <input type="text" name="name" id="name" aria-describedby="name_descr"
-                    placeholder="hh-neuron-builder" required="required" />
+                    placeholder="hh-neuron-builder"/>
 
                 <span class="field-description" id="name_descr">the short name of the web service</span>
             </p>
@@ -66,7 +66,7 @@ See top-level LICENSE file for more information
             <p title="The web service url">
                 <label for="url">URL</label>
                 <input type="text" name="url" id="url" aria-describedby="url_desc"
-                    placeholder="https://hbp-bsp-hhnb.cineca.it/hh-neuron-builder/" required="required" />
+                    placeholder="https://hbp-bsp-hhnb.cineca.it/hh-neuron-builder/" />
 
                 <span class="field-description" id="homepage_descr">the url used to access the webservice</span>
             </p>
@@ -116,58 +116,12 @@ See top-level LICENSE file for more information
                     such as ISBNs, DOI, UUIDs etc..  <a href="http://schema.org/identifier">http://schema.org/identifier</a>
                 </span>
             </p>
-            <!-- TODO:define better
-
-            I looked at the schema.org definition of identifier (https://schema.org/identifier),
-            it can be text, url or PropertyValue.
-            Used as follows in data representation with microdata:
-
-            <div property="identifier" typeof="PropertyValue">
-            <span property="propertyID">DOI</span>:
-            <span property="value">10.151.xxxxx</span>
-            </div>
-            we can use that with identifier-type and identifier-value to have a clearer idea
-            of what needs to be in the input.
-
-            -->
 
             <p title="Comma-separated list of keywords">
                 <label for="keywords">Keywords</label>
                 <input type="text" name="keywords" id="keywords"
                     placeholder="ephemerides, orbit, astronomy"  />
             </p>
-
-            <p title="Funding / grant">
-                <label for="funding">Funding</label>
-                <input type="text" name="funding" id="funding" aria-describedby="funding_descr"
-                    placeholder="PRA_2018_73"/>
-
-                <br />
-                <span class="field-description" id="funding_descr">grant funding development</span>
-            </p>
-
-            <p title="Funding / organization">
-                <label for="funder">Funder</label>
-                <input type="text" name="funder" id="funder" aria-describedby="funder_descr"
-                    placeholder="Università di Pisa"/>
-                <span class="field-description" id="funder_descr">organization funding development</span>
-                <br />
-            </p>
-
-            <div class="dynamicFields">
-                <fieldset id="funding_container">
-                    <legend>Authors</legend>
-    
-                    <input type="hidden" id="funding_nb" value="0" />
-                    <div id="addRemoveFunding">
-                        <input type="button" class="btn add" id="funding_add" value="+ Add" 
-                            onclick="addFunding('funding', 'Funding')"/>
-                        <input type="button" id="funding_remove" value="Remove last" class="btn rm"
-                            onclick="removeFunding('funding');" />
-                    </div>
-                    
-                </fieldset>
-            </div>
 
             Authors and contributors can be added below
         </fieldset>
@@ -241,25 +195,29 @@ Bugfixes: that and this." ></textarea>
         </fieldset>
 
         <div class="dynamicFields">
-            <fieldset class="persons" id="author_container">
+            <fieldset class="actors persons" id="authors">
                 <legend>Authors</legend>
 
                 <input type="hidden" id="author_nb" value="0" />
+                <input type="hidden" id="author_types" value="[]" />
                 <div id="addRemoveAuthor">
                     <div class="dropdown">
-                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderAuthor" value="+ Add..." />
+                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderAuthor" value="+ Add..." onclick="dropdownListener(this)"/>
                         <div class="dropdownContent" id="actorDropdownAuthor">
-                          <a class="dropdownOption" onclick="addActor('author', 'Author', 'person')">Person</a>
-                          <a class="dropdownOption" onclick="addActor('author', 'Author', 'organization')">Organization</a>
+                          <a class="dropdownOption" onclick="addActor('author', 'person')">Person</a>
+                          <a class="dropdownOption" onclick="addActor('author', 'organization')">Organization</a>
                         </div>
                     </div>
                     <input type="button" id="author_remove" value="Remove last" class="btn rm"
                         onclick="removeActor('author');" />
                 </div>
+                <div class="actors persons" id="author_container">
+
+                </div>
                 
             </fieldset>
 
-            <fieldset class="persons" id="contributor_container">
+            <fieldset class="actors persons" id="contributors">
                 <legend>Contributors</legend>
 
                 <p>Order of contributors does not matter.</p>
@@ -267,14 +225,51 @@ Bugfixes: that and this." ></textarea>
                 <input type="hidden" id="contributor_nb" value="0" />
                 <div id="addRemoveContributor">
                     <div class="dropdown">
-                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderContributor" value="+ Add..." />
+                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderContributor" value="+ Add..." onclick="dropdownListener(this)"/>
                         <div class="dropdownContent" id="actorDropdownContributor">
-                          <a class="dropdownOption" onclick="addActor('contributor', 'Contributor', 'person')">Person</a>
-                          <a class="dropdownOption" onclick="addActor('contributor', 'Contributor', 'organization')">Organization</a>
+                          <a class="dropdownOption" onclick="addActor('contributor', 'person')">Person</a>
+                          <a class="dropdownOption" onclick="addActor('contributor', 'organization')">Organization</a>
                         </div>
                     </div>
                     <input type="button" id="contributor_remove" value="Remove last" class="btn rm"
                         onclick="removeActor('contributor');" />
+                </div>
+            </fieldset>
+
+            <fieldset id="fundingFieldset">
+                    <legend>Funding</legend>
+    
+                    <input type="hidden" id="funding_nb" value="0" />
+                    <div id="addRemoveFunding">
+                        <input type="button" class="btn add" id="funding_add" value="+ Add" 
+                            onclick="addFunding()"/>
+                        <input type="button" id="funding_remove" value="Remove last" class="btn rm"
+                            onclick="removeFunding('funding');" />
+                    </div>
+                    <fieldset class="borderless" id="funding_container">
+
+                    </fieldset>
+            </fieldset>
+
+            <fieldset class="copyright persons" id="copyright">
+                <legend>Copyright</legend>
+                <p title="Year during which the copyright was first asserted">
+                    <label for="copyrightYear">Year</label>
+                    <input id="copyrightYear" placeholder="2020" />
+                </p>
+                <div id="addRemoveHolder">
+                    <div class="dropdown">
+                        <input type="button" class="btn add dropdownHeader" id="dropdownHeaderHolder" value="+ Add copyright holder..." onclick="dropdownListener(this)"/>
+                        <div class="dropdownContent" id="actorDropdownHolder">
+                          <a class="dropdownOption" onclick="addActor('holder', 'person')">Person</a>
+                          <a class="dropdownOption" onclick="addActor('holder', 'organization')">Organization</a>
+                        </div>
+                    </div>
+                    <input type="button" id="holder_remove" value="Remove last" class="btn rm"
+                        onclick="removeActor('holder');" />
+                </div>
+                <div class="actors persons" id="holder_container">
+
                 </div>
             </fieldset>
         </div>
@@ -332,8 +327,6 @@ Bugfixes: that and this." ></textarea>
       initCallbacks();
       loadStateFromStorage();
     });
-
-    updateDropdown();
 
     document.addEventListener("click", function(event) {
     var targetElement = event.target;

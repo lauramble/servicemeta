@@ -29,228 +29,224 @@ const actorFieldsMap = {
     "organization": organizationFields
 }
 
-function personFieldsetHTML(actorPrefix, legend) {
+function personFieldsetHTML(prefix, id, legend,
+    actorPrefix = `${prefix}_${id}`) {
     return `
-    <legend>${legend}</legend>
-    <input type="hidden" id="${actorPrefix}_type" value="person" />
-    <div class="moveButtons">
-        <input type="button" id="${actorPrefix}_moveToLeft" value="<" class="moveToLeft"
-            title="Moves this person to the left." />
-        <input type="button" id="${actorPrefix}_moveToRight" value=">" class="moveToRight"
-            title="Moves this person to the right." />
-    </div>
-    <p>
-        <label for="${actorPrefix}_givenName">Given name</label>
-        <input type="text" id="${actorPrefix}_givenName" name="${actorPrefix}_givenName"
-            placeholder="Jane" required="true" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_familyName">Family name</label>
-        <input type="text" id="${actorPrefix}_familyName" name="${actorPrefix}_familyName"
-            placeholder="Doe" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_email">E-mail address</label>
-        <input type="email" id="${actorPrefix}_email" name="${actorPrefix}_email"
-            placeholder="jane.doe@example.org" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_identifier">Identifier</label>
-        <input type="url" id="${actorPrefix}_identifier" name="${actorPrefix}_identifier"
-            placeholder="http://orcid.org/0000-0002-1825-0097" />
-    </p>
-    <p>
-    <label for="${actorPrefix}_affiliation">Affiliation</label>
-        <input type="text" id="${actorPrefix}_affiliation" name="${actorPrefix}_affiliation"
-            placeholder="Department of Computer Science, University of Pisa" />
-    </p>
-    <input type="hidden" id="${actorPrefix}_role_index" value="0" />
-    <input type="button" id="${actorPrefix}_role_add" value="Add one role" />
+        <legend class="person" id="${actorPrefix}_legend">${legend} #<span class="actorID">${id}</span></legend>
+        <input class="actorType" type="hidden" id="${actorPrefix}_type" name="actorType" value="person" />
+        <input class="actorID" type="hidden" name="actorID" value=${id} />
+        <div class="moveButtons">
+            <input type="button" id="${actorPrefix}_moveLeft" value="<" class="moveLeft"
+                title="Move to the left." onclick="moveLeft(this, '${prefix}')"/>
+            <input type="button" id="${actorPrefix}_delete" value="x" class="delete"
+                title="Delete." onclick="deleteActor(this, '${prefix}')"/>
+            <input type="button" id="${actorPrefix}_moveRight" value=">" class="moveRight"
+                title="Move to the right." onclick="moveRight(this, '${prefix}')" />
+        </div>
+        <p>
+            <label for="${actorPrefix}_givenName">Given name</label>
+            <input type="text" id="${actorPrefix}_givenName" name="givenName"
+                placeholder="Jane" required="true" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_familyName">Family name</label>
+            <input type="text" id="${actorPrefix}_familyName" name="familyName"
+                placeholder="Doe" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_email">E-mail address</label>
+            <input type="email" id="${actorPrefix}_email" name="email"
+                placeholder="jane.doe@example.org" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_identifier">Identifier</label>
+            <input type="url" id="${actorPrefix}_identifier" name="identifier"
+                placeholder="http://orcid.org/0000-0002-1825-0097" />
+        </p>
+        <p>
+        <label for="${actorPrefix}_affiliation">Affiliation</label>
+            <input type="text" id="${actorPrefix}_affiliation" name="affiliation"
+                placeholder="Department of Computer Science, University of Pisa" />
+        </p>
+        <div class="roles">
+            <input type="hidden" id="${actorPrefix}_role_index" value="0" />
+            <input type="button" id="${actorPrefix}_role_add" value="Add one role" onclick="addRole('${prefix}', ${id})"/>
+        </div>
+    `
+}
+
+function organizationFieldsetHTML(prefix, id, legend,
+    actorPrefix = `${prefix}_${id}`) {
+    return `
+    <legend class="organization" id="${actorPrefix}_legend">${legend} #<span class="actorID">${id}</span></legend>
+        <input class="actorType" type="hidden" id="${actorPrefix}_type" name="actorType" value="organization" />
+        <input class="actorID" type="hidden" name="actorID" value=${id} />
+        <div class="moveButtons">
+            <input type="button" id="${actorPrefix}_moveLeft" value="<" class="moveLeft"
+                title="Move to the left." onclick="moveLeft(this, '${prefix}')"/>
+            <input type="button" id="${actorPrefix}_delete" value="x" class="delete"
+                title="Delete." onclick="deleteActor(this, '${prefix}')"/>
+            <input type="button" id="${actorPrefix}_moveRight" value=">" class="moveRight"
+                title="Move to the right." onclick="moveRight(this, '${prefix}')" />
+        </div>
+        <p>
+            <label for="${actorPrefix}_name">Name</label>
+            <input type="text" id="${actorPrefix}_name" name="name"
+                placeholder="The University Academy" required="true" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_alternateName">Short name</label>
+            <input type="text" id="${actorPrefix}_alternateName" name="alternateName"
+                placeholder="UA" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_url">Website</label>
+            <input type="url" id="${actorPrefix}_url" name="url"
+                placeholder="http://www.university-academy.org" />
+        </p>
+        <p>
+            <label for="${actorPrefix}_identifier">Identifier</label>
+            <input type="url" id="${actorPrefix}_identifier" name="identifier"
+                placeholder="" />
+        </p>
 `
 }
 
-function organizationFieldsetHTML(actorPrefix, legend) {
-    return `
-    <legend>${legend}</legend>
-    <input type="hidden" id="${actorPrefix}_type" value="organization" />
-    <div class="moveButtons">
-        <input type="button" id="${actorPrefix}_moveToLeft" value="<" class="moveToLeft"
-            title="Moves this organization to the left." />
-        <input type="button" id="${actorPrefix}_moveToRight" value=">" class="moveToRight"
-            title="Moves this orgnaization to the right." />
-    </div>
-    <p>
-        <label for="${actorPrefix}_name">Name</label>
-        <input type="text" id="${actorPrefix}_name" name="${actorPrefix}_name"
-            placeholder="hello test hello" required="true" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_alternateName">Short name</label>
-        <input type="text" id="${actorPrefix}_alternateName" name="${actorPrefix}_alternateName"
-            placeholder="hi" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_url">Website</label>
-        <input type="url" id="${actorPrefix}_url" name="${actorPrefix}_url"
-            placeholder="http://www.hello.org" />
-    </p>
-    <p>
-        <label for="${actorPrefix}_identifier">Identifier</label>
-        <input type="url" id="${actorPrefix}_identifier" name="${actorPrefix}_identifier"
-            placeholder="http://hello" />
-    </p>
-    <p>
-    <label for="${actorPrefix}_affiliation">Affiliation</label>
-        <input type="text" id="${actorPrefix}_affiliation" name="${actorPrefix}_affiliation"
-            placeholder="Department of Computer Science, University of Pisa" />
-    </p>
-`
-}
-
-function createActorFieldset(actorPrefix, actorType, legend) {
-    // Creates a fieldset containing inputs for informations about a person
-    var fieldset = document.createElement("fieldset");
-
-    fieldset.classList.add("actor");
-    fieldset.classList.add(actorType);
-    fieldset.classList.add("leafFieldset");
-    fieldset.id = actorPrefix;
-   
-    switch (actorType) {
+function createActorFieldset(actorType, prefix, id, legend) {
+    // Creates a fieldset containing inputs for informations about an actor 
+    const fieldset = document.createElement("fieldset");
+    fieldset.classList = `${prefix} actor ${actorType} leafFieldset`;
+    fieldset.id = `${prefix}_${id}`;
+    switch (actorType.toLowerCase()) {
         case "person":
-            fieldset.innerHTML = personFieldsetHTML(actorPrefix, legend);
+            fieldset.innerHTML = personFieldsetHTML(prefix, id, legend);
             break;
         case "organization":
-            fieldset.innerHTML = organizationFieldsetHTML(actorPrefix, legend);
+            fieldset.innerHTML = organizationFieldsetHTML(prefix, id, legend);
             break;
+        default:
+            throw new TypeError(`Wrong actor type, must be "person" or "organization", not ${actorType.toLowerCase()}`)
     }
-    
-
+    fieldset.addEventListener("change", () => saveActorsToLocalStorage(prefix));
     return fieldset;
 }
 
-function addActorWithId(container, actorType, prefix, legend, id) {
-    var actorPrefix = `${prefix}_${id}`;
-    var fieldset = createActorFieldset(actorPrefix, actorType, `${legend} #${id}`);
 
-    container.appendChild(fieldset);
-
-    document.querySelector(`#${actorPrefix}_moveToLeft`)
-        .addEventListener('click', () => moveActor(prefix, id, "left", legend));
-    document.querySelector(`#${actorPrefix}_moveToRight`)
-        .addEventListener('click', () => moveActor(prefix, id, "right", legend));
-    if (document.querySelector(`#${actorPrefix}_role_add`)) {
-        document.querySelector(`#${actorPrefix}_role_add`)
-            .addEventListener('click', () => addRole(actorPrefix));
-    }
-}
-
-function replaceActor(prefix, actorType, legend, id, fieldsValues) {
-    var actorPrefix = `${prefix}_${id}`;
-    var fieldset = createActorFieldset(actorPrefix, actorType, `${legend} #${id}`);
-
-    document.querySelector(`#${actorPrefix}`).innerHTML = fieldset.innerHTML;
-    document.querySelector(`#${actorPrefix}`).classList = fieldset.classList;
-
-    actorFieldsMap[actorType].forEach((fieldName) => {
-        document.querySelector(`#${actorPrefix}_${fieldName}`).value = fieldsValues[fieldName];
-    });
-
-    document.querySelector(`#${actorPrefix}_moveToLeft`)
-        .addEventListener('click', () => moveActor(prefix, id, "left", legend));
-    document.querySelector(`#${actorPrefix}_moveToRight`)
-        .addEventListener('click', () => moveActor(prefix, id, "right", legend));
-    if (document.querySelector(`#${actorPrefix}_role_add`)) {
-        document.querySelector(`#${actorPrefix}_role_add`)
-            .addEventListener('click', () => addRole(actorPrefix));
-    }
-    
-}
-
-function moveActor(prefix, id1, direction, legend) {
-    console.log("hello");
-    var nbActors = getNbChildren(prefix);
-    var id2;
-
-    // Computer id2, the id of the person to flip id1 with (wraps around the
-    // end of the list of persons)
-    if (direction == "left") {
-        id2 = id1 - 1;
-        if (id2 <= 0) {
-            id2 = nbActors;
+function saveActorsToLocalStorage(prefix) {
+    const data = [];
+    const container = document.querySelector(`#${prefix}_container`);
+    container.querySelectorAll('fieldset').forEach((fieldset) => {
+        const inputs = fieldset.querySelectorAll('input');
+        const fieldsetData = {};
+        inputs.forEach(input => {
+            if (input.name && !input.classList.contains("role")) {
+                fieldsetData[input.name] = input.value;
+            }          
+        });
+        const roles = fieldset.querySelector(".roles");
+        if (roles) {
+            const rolesUl = [];
+            roles.querySelectorAll("ul").forEach( role => {
+                const rolesLi = role.querySelectorAll("input");
+                let roleObj = {};
+                rolesLi.forEach(roleInput => {
+                    if (roleInput.name) {
+                        roleObj[roleInput.name] = roleInput.value
+                    } 
+                });
+                rolesUl.push(roleObj)
+            });
+            fieldsetData["roles"] = rolesUl;
         }
-    }
-    else {
-        id2 = id1 + 1;
-        if (id2 > nbActors) {
-            id2 = 1;
+        data.push(fieldsetData);
+    });
+    localStorage.setItem(prefix, JSON.stringify(data));
+    return data;
+}
+
+function loadActorsFromLocalStorage(prefix) {
+    const data = JSON.parse(localStorage.getItem(prefix)) || [];
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    data.forEach(item => {
+        const fieldset = addActor(prefix, item["actorType"]);
+        for (let [name, value] of Object.entries(item)) {
+            if (name !== "roles") {
+                fieldset.querySelector(`input[name=${name}]`).value = value;
+            }
         }
-    }
-
-    var actor1Prefix = `${prefix}_${id1}`;
-    var actor2Prefix = `${prefix}_${id2}`;
-
-    var actor1Type = document.querySelector(`#${actor1Prefix}_type`).value;
-    var actor2Type = document.querySelector(`#${actor2Prefix}_type`).value;
-
-    var newId1Values = {};
-    var newId2Values = {};
-
-    actorFieldsMap[actor2Type].forEach((fieldName) => {
-        newId1Values[fieldName] = document.querySelector(`#${actor2Prefix}_${fieldName}`).value;
+        fieldsetContainer.appendChild(fieldset);
     });
-    actorFieldsMap[actor1Type].forEach((fieldName) => {
-        newId2Values[fieldName] = document.querySelector(`#${actor1Prefix}_${fieldName}`).value;
-    });
-
-    replaceActor(prefix, actor2Type, legend, id1, newId1Values);
-    replaceActor(prefix, actor1Type, legend, id2, newId2Values);
-
-    // Form was changed; regenerate
-    generateServicemeta();
 }
 
-function addActor(prefix, legend, type) {
-    var container = document.querySelector(`#${prefix}_container`);
-    var actorId = getNbChildren(prefix) + 1;
-
-    addActorWithId(container, type, prefix, legend, actorId);
-
-    setNbChildren(prefix, actorId);
-
-    return actorId;
-}
-
-
-function removeActor(prefix) {
-    var actorId = getNbChildren(prefix);
-
-    document.querySelector(`#${prefix}_${actorId}`).remove();
-
-    setNbChildren(prefix, actorId - 1);
-}
-
-// Initialize a group of persons (authors, contributors) on page load.
-// Useful if the page is reloaded.
-function initActors(prefix, legend) {
-    var nbActors = getNbChildren(prefix);
-    var personContainer = document.querySelector(`#${prefix}_container`)
-
-    for (let actorId = 1; actorId <= nbActors; actorId++) {
-        addActorWithId(personContainer, "person", prefix, legend, actorId);
+function moveLeft(button, prefix) {
+    const fieldset = button.parentElement.parentElement;
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    const prevFieldset = fieldset.previousElementSibling;
+    if (prevFieldset) {
+        fieldsetContainer.insertBefore(fieldset, prevFieldset);
+        updateId(prefix);
+        saveActorsToLocalStorage(prefix);
+    } else {
+        fieldsetContainer.appendChild(fieldset);
+        updateId(prefix);
+        saveActorsToLocalStorage(prefix);
     }
+}
+
+function moveRight(button, prefix) {
+    const fieldset = button.parentElement.parentElement;
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    const nextFieldset = fieldset.nextElementSibling;
+    if (nextFieldset) {
+        fieldsetContainer.insertBefore(nextFieldset, fieldset);
+        updateId(prefix);
+        saveActorsToLocalStorage(prefix);
+    } else {
+        fieldsetContainer.insertBefore(fieldset, fieldsetContainer.firstChild);
+        updateId(prefix);
+        saveActorsToLocalStorage(prefix);
+    }
+}
+
+function deleteActor(button, prefix) {
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    const fieldset = button.parentElement.parentElement;
+    fieldsetContainer.removeChild(fieldset);
+    updateId(prefix);
+    saveActorsToLocalStorage(prefix);
+}
+
+function updateId(prefix) {
+    let i = 1;
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    fieldsetContainer.querySelectorAll("fieldset").forEach((fieldset) => {
+        fieldset.querySelector("span").innerText = i;
+        fieldset.id = `${prefix}_${i}`;
+        i++;
+      })
+}
+
+function addActor(prefix, type, legend = prefix[0].toUpperCase() + prefix.slice(1)) {
+    const fieldsetContainer = document.querySelector(`#${prefix}_container`);
+    const id = getNbChildren(prefix) + 1;
+    const actorPrefix = `${prefix}_${id}`;
+    let newFieldset = createActorFieldset(type, prefix, id, legend);
+
+    fieldsetContainer.appendChild(newFieldset)
+
+    return fieldsetContainer.querySelector(`#${prefix}_${id}`);
 }
 
 function removeActors(prefix) {
     var nbActors = getNbChildren(prefix);
-    var personContainer = document.querySelector(`#${prefix}_container`)
 
     for (let actorId = 1; actorId <= nbActors; actorId++) {
-        removeActor(prefix)
+        removeActor(prefix);
     }
 }
 
-function addRole(personPrefix) {
+function addRole(prefix, id) {
+    const personPrefix = `${prefix}_${id}`;
     const roleButtonGroup = document.querySelector(`#${personPrefix}_role_add`);
     const roleIndexNode = document.querySelector(`#${personPrefix}_role_index`);
     const roleIndex = parseInt(roleIndexNode.value, 10);
@@ -261,24 +257,25 @@ function addRole(personPrefix) {
 
     ul.innerHTML = `
         <li><label for="${personPrefix}_roleName_${roleIndex}">Role</label>
-            <input type="text" class="roleName" id="${personPrefix}_roleName_${roleIndex}" name="${personPrefix}_roleName_${roleIndex}"
+            <input type="text" class="role roleName" id="${personPrefix}_roleName_${roleIndex}" name="roleName"
                 placeholder="Developer" size="10" /></li>
         <li><label for="${personPrefix}_startDate_${roleIndex}">Start date:</label>
-            <input type="date" class="startDate" id="${personPrefix}_startDate_${roleIndex}" name="${personPrefix}_startDate_${roleIndex}" /></li>
+            <input type="date" class="role startDate" id="${personPrefix}_startDate_${roleIndex}" name="startDate" /></li>
         <li><label for="${personPrefix}_endDate_${roleIndex}">End date:</label>
-            <input type="date" class="endDate" id="${personPrefix}_endDate_${roleIndex}" name="${personPrefix}_endDate_${roleIndex}" /></li>
+            <input type="date" class="role endDate" id="${personPrefix}_endDate_${roleIndex}" name="endDate" /></li>
         <li><input type="button" id="${personPrefix}_role_remove_${roleIndex}" value="X" title="Remove role" /></li>
     `;
     roleButtonGroup.after(ul);
 
     document.querySelector(`#${personPrefix}_role_remove_${roleIndex}`)
-        .addEventListener('click', () => removeRole(personPrefix, roleIndex));
+        .addEventListener('click', () => removeRole(prefix, id, roleIndex));
 
     roleIndexNode.value = roleIndex + 1;
 }
 
-function removeRole(personPrefix, roleIndex) {
-    document.querySelector(`#${personPrefix}_role_${roleIndex}`).remove();
+function removeRole(prefix, id, roleIndex) {
+    document.querySelector(`#${prefix}_${id}_role_${roleIndex}`).remove();
+    saveActorsToLocalStorage(prefix)
 }
 
 function resetForm() {
@@ -317,12 +314,9 @@ function initCallbacks() {
 
     document.querySelector('#inputForm')
         .addEventListener('change', () => generateServicemeta());
-
-    /*
-    document.querySelector('#developmentStatus')
-        .addEventListener('change', fieldToLower);
-    */
    
-    initActors('author', 'Author');
-    initActors('contributor', 'Contributor');
+    //initActors('author', 'Author');
+    //initActors('contributor', 'Contributor');
+    loadActorsFromLocalStorage("author");
+    loadFundingFromLocalStorage();
 }

@@ -21,7 +21,7 @@
       "datePublished": {"@id": "schema:datePublished", "@type": "schema:Date" },
       "documentation": {"@id": "schema:documentation", "@type": "@id"},
       "downloadUrl": { "@id": "schema:downloadUrl", "@type": "@id"},
-      "funding": { "@id": "schema:funding", "@type": "@id"},
+      "funding": { "@id": "schema:funding", "@type": "schema:Grant"},
       "funder": {"@id": "schema:funder"},
       "version": { "@id": "schema:version"},
       "url": { "@id": "schema:url", "@type": "@id"},
